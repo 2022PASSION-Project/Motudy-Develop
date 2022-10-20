@@ -1,0 +1,45 @@
+body {
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+form#instaForm {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #fff;
+    padding: 5px;
+    font-size: 14px;
+}
+
+ul#comments {
+    list-style: none;
+    text-align: left;
+} 
+
+#instaForm > input {
+    width: 150px;
+    font-size: 14px;
+    padding: 10px;
+}
+
+#instaForm > input:nth-child(2) {
+    width: 100px;    
+}
+
+#instaForm > input:nth-child(3) {
+    width: 350px;    
+}
+
+#instaForm > button {
+    color: aliceblue;
+    background-color: rgb(221, 52, 69);
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 10px;
+}
+
+ul#comments > li, b {
+    font-size: 14px;
+    padding-bottom: 8px;
+}

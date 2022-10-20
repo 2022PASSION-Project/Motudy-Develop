@@ -1,0 +1,107 @@
+body {
+    margin: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: rgb(239, 239, 239);
+}
+
+/*글자, 배경, 로고 색 변경용 변수*/
+:root { 
+    --text-color : rgb(255, 255, 255);
+    --background-color: rgb(221, 52, 69);
+    --logo-color : rgb(0, 0, 0);
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar a {
+    color: var(--text-color);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--background-color);
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+.navbar_logo {
+    font-size: 24px;
+}
+
+.navbar_logo>i {
+    color: var(--logo-color);
+}
+
+.navbar_menu {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+}
+
+.navbar_menu > li {
+    padding: 8px 12px;
+}
+.navbar_menu > li:hover {
+    background-color: var(--logo-color);
+    border-radius: 10px;
+}
+
+.navbar_login {
+    display: flex;
+    list-style: none;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.navbar_login > li {
+    padding: 8px 12px;
+}
+
+.navbar_toggleBtn {
+    display: none;
+    position: absolute;
+    right: 32px;
+    font-size: 22px;
+    color: var(--logo-color);
+}
+
+/*반응형 웹사이트 구현*/
+@media screen and (max-width: 1035px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 24px;
+    }
+
+    .navbar_menu {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .navbar_menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar_login {
+        display: none;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .navbar_toggleBtn {
+        display: block;
+    }
+
+    /*토글 버튼 기능*/
+    .navbar_menu.active,
+    .navbar_login.active {
+        display: flex;
+    }
+}

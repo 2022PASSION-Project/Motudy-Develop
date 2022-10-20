@@ -1,0 +1,110 @@
+.modalmojip_on {
+  border: 0;
+  border-radius: 5px;
+  color: aliceblue;
+  background-color: rgb(221, 52, 69);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 12px 8px 12px;
+}
+
+.modalmojip {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: grey;
+  top: 0;
+  left: 0;
+}
+
+.modalmojip_content {
+  position: absolute;
+  position: relative;
+  top: 12%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 70%;
+  padding: 32px  ;
+  background-color: grey; 
+}
+
+.modalmojip > .modalmojip_content > .modalmojip_out {
+  position: absolute;
+  left: 95%;
+  top: 0;
+  padding: 3px 6px 3px 6px;
+  color: aliceblue;
+  background-color:rgb(221, 52, 69);
+  border: 0;
+  cursor: pointer;
+}
+
+.modalmojip > .modalmojip_content > input.mojip_name, textarea.mojip_content {
+  border: 0;
+  display: block;
+  width: 100%;
+  padding: 16px 16px 16px 16px;
+}
+
+.modalmojip > .modalmojip_content > input.mojip_name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 0.5px;
+}
+
+.modalmojip > .modalmojip_content > textarea.mojip_content {
+  font-size: 12px;
+  height: 250px;
+  resize: none;
+}
+
+.modalmojip > .modalmojip_content > button.mojip_summit {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 20px;
+  border: 0;
+  padding: 8px 0 8px 0;
+  color: aliceblue;
+  font-weight: bold;
+  background-color:rgb(221, 52, 69);
+  cursor: pointer;
+}
+
+#mojipPost {
+  list-style: none;
+  margin-top: 10px;
+  display: block;
+  text-align: left;
+  padding: 0 16px 16px 16px;
+}
+
+#mojipPost > li {
+  padding: 8px;
+  background-color: #fff;
+  margin: 0 0 5px 0;
+  font-size: 12px;
+  
+}
+
+.mojipPost_detail {
+  text-decoration: none;
+  color: black;
+
+}
+
+#mojipPost > li > h3 {
+  margin-top: 0px;
+  margin-bottom: 8px;
+  
+}
+
+
+
+.postMojipDetail {
+  background-color: #fff;
+  
+  
+}
+

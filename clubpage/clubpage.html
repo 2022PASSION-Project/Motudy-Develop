@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./club_sty_header.css">
+    <link rel="stylesheet" href="club_detail.css">
+    <script src="https://kit.fontawesome.com/754b0309eb.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner&family=Edu+VIC+WA+NT+Beginner&family=Nanum+Gothic&family=Source+Sans+Pro&   display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../comment/comment.css">
+    <style src="../comment/comment.js"></style>
+
+
+    <title>모터디_대외활동메인페이지</title>
+  </head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <div class="navbar_logo">
+        <i class="fa-solid fa-school"></i>
+        <a href="../mainpage_header/index.html">
+          &nbsp;&nbsp;모터디
+        </a>
+      </div>
+
+      <ul class="navbar_menu">
+        <li><a href="#">홈</a></li>
+        <li><a href="#">대외활동</a></li>
+        <li><a href="#">스터디</a></li>
+      </ul>
+    
+      <ul class="navbar_login">
+        <li><a href="#" id="login">로그인</a></li>
+        <li><a href="#" id="join">회원가입</a></li>
+      </ul>
+
+      <a href="#" class="navbar_toggleBtn">
+        <i class="fa-solid fa-burger"></i>
+      </a>
+    </nav>
+  </header>
+  
+  <section class="title">
+    <div class="wrap">
+      <figure>
+        <img src="/clubpage/대외활동예시포스터.jpg" alt="">
+      </figure>
+        <div class="content">
+          <h1>십시일반 신입 사무국원 추가 모집</h1>
+          <p class="company">십시일반</p>
+          <p class="info">
+            <span class="viewcount"><i class="fa-solid fa-eye"></i>&nbsp;453</span>
+          </p>
+        </div>
+    </div>
+  </section>
+
+  <section class="tap">
+    <div class="wrap">
+      <a href="./clubsogae.html" onclick="toggle_color(event)" target="iframe_club">
+        <span class="text">소개</span>
+      </a>
+      <a href="./mojip.html" onclick="toggle_color(event)" target="iframe_club">
+        <span class="text">팀원 모집</span>
+        <span class="teamcount">00</span>
+      </a>
+      <a href="../comment/comment.html" onclick="toggle_color(event)" target="iframe_club">
+        <span class="text">댓글</span>
+        <span class="commentcount">11</span>
+      </a>
+    </div>
+  </section>
+
+  <iframe id="iframe_club" src="" frameborder="0" name="iframe_club" scrolling="no">
+  </iframe>
+  <footer>
+    <div>
+      <a href=""><b>&copy;모터디</b></a>
+      <a href="">이용약관</a>
+      <a href=""><b>개인정보처리방침</b></a>
+      <a href="">커뮤니티이용규칙</a>
+      <a href="">문의하기</a>
+    </div>
+  </footer>
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./clubjs.js"></script>
+  </body>
+</html>  
