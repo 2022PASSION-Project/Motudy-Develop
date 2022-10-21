@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style_header.css">
+   
+    <script src="https://kit.fontawesome.com/754b0309eb.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="mypage.css">
+    <link rel="stylesheet" href="mento.css">
+    <link rel="stylesheet" href="dong.css">
+    <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner&family=Edu+VIC+WA+NT+Beginner&family=Nanum+Gothic&family=Source+Sans+Pro&   display=swap" rel="stylesheet">
+    <script src="./main.js" defer></script>
+    <title>모터디_mainpage</title>
+  </head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <div class="navbar_logo">
+        <i class="fa-solid fa-school"></i>
+        <a href="#none">
+          &nbsp;&nbsp;모터디
+        </a>
+      </div>
+
+      <ul class="navbar_menu">
+        <li><a href="#">홈</a></li>
+        <li><a href="#">커뮤니티</a></li>
+        <li><a href="#">동아리</a></li>
+        <li><a href="#">대외활동</a></li>
+        <li><a href="#">공모전</a></li>
+        <li><a href="#">스터디</a></li>
+        <li><a href="#">취업정보</a></li>
+        <li><a href="#">이벤트</a></li>
+        <li><a href="#">게시요청</a></li>
+      </ul>
+    
+      <ul class="navbar_login">
+        <li><a href="#" id="login">로그인</a></li>
+        <li><a href="#" id="join">회원가입</a></li>
+      </ul>
+
+      <a href="#" class="navbar_toggleBtn">
+        <i class="fa-solid fa-burger"></i>
+      </a>
+    </nav>
+  </header>
+
+  <main class="container">
+  <main class="mento">
+    <section class="tab" style="top: 0px;">
+      <div class="wrap">
+        <a href="scrap.html" data-type="scrap" class=""><span class="text">스크랩</span></a>
+        <a href="comment.html" data-type="comment" class=""><span class="text">댓글</span></a>
+        <a href="manager.html" data-type="manager" class="active"><span class="text">게시물 관리</span></a>
+      </div>
+    </section>
+    <div class="mentocheck">
+
+        <div class="check">
+
+        </div>
+
+    </div>
+  </main>
+
+<div class="container_main">
+    <div class="page">
+     
+
+
+    
+    <div class="pagemain">      
+    <div class = "items">1
+      <div class="cardtop">1
+        <div class="cardlist">1
+          <div class="cardlists">
+            <dt>1</dt>
+            <dd>1</dd>
+          </div>
+        </div>
+      </div>
+      <div class="cardbottom">1
+
+        <button>5.0</button>
+      </div>
+    </div>
+    <div class = "items">1</div>
+    <div class = "items">1</div>
+    <div class = "items">1</div>
+    <div class = "items">1</div>
+    <div class = "items">1</div>
+    <div class = "items">1</div>
+    <div class = "items">1</div>
+
+  </div>
+    </div>
+</div>
+</main>
+
+
+
+
+
+
+
+
+</main>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./jquery.js"></script>
+
+  <script>
+    $('.wrap').click(function(){
+      $(this).addClass('active')
+      $(this).siblings('wrap').removeClass('active')
+    })
+  </script>
+
+</body>
+
+</html>

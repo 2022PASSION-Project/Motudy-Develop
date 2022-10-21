@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="login-form">
+        <h1>모터디 로그인</h1>
+        <form action="">
+            <div class="int-area">
+                <input type="text" name="id" id="id" autocomplete="off" required>
+                <label for="id">아이디</label>
+            </div>
+            <div class="int-area">
+                <input type="password" name="pw" id="pw" autocomplete="off" required>
+                <label for="pw">비밀번호</label>
+            </div>
+            <div class="btn-area">
+                <button id="btn" type="submit">로그인</button>
+            </div>  
+
+            <div class="login-footer">
+            <a href="#none">아이디/비밀번호 찾기</a>
+            <a href="#none"><h4>아직 계정이 없으신가요?<span>회원가입</span></h4></a>
+            </div>
+            <!-- <p>아이디/비밀번호 찾기</p>
+            <h4>---계정이 없으신가요?<span>회원가입</span></h4> -->
+          
+            <!-- <div class="login-type">
+                <h3>더욱 간편한 로그인</h3>
+                <a href="{{ route('social.login',['naver']) }}">
+                    <img src="/image/naver.png" width="360px" height="56px">
+                </a>
+                <a href="{{ route('social.login',['kakao']) }}">
+                    <img src="/image/kakao.png" width="360px" height="56px">
+                </a>
+            </div>
+            <div class="login-footer">
+                <a href="">회원가입</a>
+            </div> -->
+        </form>
+
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+.stcon{
+    width: 100%;
+    height: 350px;
+    display:block;
+    
+    padding: 0;
+    
+    
+    }
+    img{
+      width: 20px;
+      
+    }
+    .fa-solid{
+      margin: 5px;
+    }
+    .fa-regular{
+      margin: 5px;
+    }
+    .h2 {
+      margin-top: 15px;
+      margin: 10px;
+    }
+    .list{
+     width: 896px;   
+     margin: auto;
+    height: 100%;
+    
+    cursor: pointer;
+    
+    }
+    .btn_open{
+      float: right;
+      border-radius: 10px;
+      
+    }
+    .btn_close{
+      float: none;
+      position: relative;
+      top: 250px;  
+      left: 150px;    
+
+    }
+    .item{
+        width: 896px;
+        height: 250px;
+        background-color: rgb(255, 255, 255);
+        border-bottom: 1px solid rgb(211, 199, 199);
+        margin-top: 30px;
+    }
+    .highlight{
+        float: left;
+        padding-right: 100px;
+        user-select: none;
+        border-radius: 10px;
+        width: 100%;
+        height: 20px;
+    }
+    .item p{
+        float: left;
+        width: 100%;
+        height: 10px;
+        display: block;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+    }
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+  
+    .highlight span{
+      /* 생략 */
+      margin: 10px;
+      padding: 0.2rem 0.5rem;
+      font-family: "Noto Sans KR", sans-serif;
+      font-size: 1rem;
+      font-weight: 100;
+      text-align: center;
+      text-decoration: none;
+      float: right;
+      display: inline-block;
+      width: auto;
+      
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    
+      cursor: pointer;
+    
+      transition: 0.5s;
+    
+      background: var(--button-bg-color);
+      color: var(--button-color);
+      --button-color: #212529;
+      --button-bg-color: #ffc107;
+      --button-hover-bg-color: #e0a800;
+     
+    }
+    
+    button:disabled {
+      opacity: 0.5;
+    
+    }
+    button:active,
+    button:hover,
+    button:focus {
+      background: var(--button-hover-bg-color);
+      outline: 0;
+    }
+    .badges span{
+        /* 생략 */
+        margin: 0;
+        padding: 0.2rem 0.5rem;
+      
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 1rem;
+        font-weight: 100;
+        text-align: center;
+        text-decoration: none;
+      
+        display: inline-block;
+        width: auto;
+      
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      
+        cursor: pointer;
+      
+        transition: 0.5s;
+      
+        background: var(--button-bg-color);
+        color: var(--button-color);
+        --button-color: #212529;
+        --button-bg-color: #ffc107;
+        --button-hover-bg-color: #e0a800;
+      }
+      button:disabled {
+        opacity: 0.5;
+      
+      }
+      button:active,
+      button:hover,
+      button:focus {
+        background: var(--button-hover-bg-color);
+        outline: 0;
+      }
+    
+    
+  
+  
+    .info .comment{
+        padding-left: 12px;
+        background: rgba(0,0,0,0) url(/images/common/info.commentcount.png) no-repeat left center;
+        background-size: 9px 9px;
+    }
+    .info{
+      
+      padding-left: 12px;
+    }
+    .info .count{
+    padding-left: 12px;
+    }
+    .tab{
+      margin-bottom: 12px;
+    }
+
+    .field {
+
+    }
+
+    .field > h3 {
+
+    }
+
+
+   /* .field h3{
+    color: silver;
+    font-size: 15px;
+    float: left;
+    display:inline-block;
+    font-weight: normal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px; */
+   /* } */
+    .lists p{
+    word-wrap: break-word;
+    color: #000000;
+    font-size: 14px;
+    float: right;
+   }
+   .field{
+    display: inline;
+   }
+
+ 
+  
+
+  .h2{
+    margin-bottom: 4px;
+    word-wrap: break-word;
+    color: #cfb4b4;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.write{
+    padding: 1rem 1rem;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 1rem;
+    font-weight: 100;
+    text-align: center;
+    text-decoration: none;
+    
+    display: inline-block;
+    width: auto;
+    
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  
+    cursor: pointer;
+  
+    transition: 0.5s;
+  
+    background: var(--button-bg-color);
+    color: var(--button-color);
+    --button-color: #212529;
+    --button-bg-color: #ffc107;
+    --button-hover-bg-color: #e0a800;
+    user-select: none;
+}
+    
