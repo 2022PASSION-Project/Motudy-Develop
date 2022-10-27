@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>모터디 회원가입</h2>
+        <p>"모터디 계정으로" <strong>다양한 스터디 활동을 이용하실 수 있습니다.</strong></p>
+        <!-- <h2 class="sch">학교선택</h2> -->
+        <div class="input">
+            <div class="label"><label>닉네임</label></div>
+            <input type="text" name="campus_name" class="campus_name" maxlength="20" placeholder="닉네임을 입력하세요" autocomplete="off" class="search">
+            <input type="hidden" name="camppus_id">
+            <p>공백없이 문자와 숫자로만 3자 이상 20자 이내로 입력하세요. 가입후에 변경할 수 있습니다.</p>
+    
+        </div>
+    <div class="input">
+        <div class="label"><label>이메일</label></div>
+        <input type="text" name="campus_name" class="campus_name" maxlength="20" placeholder="이메일을 입력하세요" autocomplete="off" class="search">
+        <input type="hidden" name="camppus_id">
+        <p>모터디는 사용자의 이메일을 공개하지 않습니다.</p>
+
+    </div>
+    <div class="input">
+        <div class="label"><label>패스워드</label></div>
+        <input type="text" name="campus_name" class="campus_name" maxlength="20" placeholder="패스워드를 입력하세요" autocomplete="off" class="search">
+        <input type="hidden" name="camppus_id">
+        <p>8자 이상 50자 이내로 입력하세요. 영문자, 숫자, 특수기호를 사용할 수 있으며 공백은 사용할 수 없습니다.</p>
+    </div>
+    <ol class="campuses"></ol>
+    
+    <input type="submit" value="가입하기" id="btn">
+</body>
+</html>
