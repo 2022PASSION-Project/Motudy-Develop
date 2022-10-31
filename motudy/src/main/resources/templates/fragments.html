@@ -28,7 +28,7 @@
 </head>
 
 <nav th:fragment="main-nav" class="navbar navbar-expand-sm navbar-dark" style="background-color: #880000;">
-	<a class="navbar-brand mr-auto" href="/" th:href="@{/}">
+	<a class="navbar-brand" href="/" th:href="@{/}">
 		<img src="/images/nav-logo.png" width="35" height="35">
 	</a>
 
@@ -46,11 +46,8 @@
 <!--		</ul>-->
 
 		<ul class="navbar-nav mx-auto">
-			<li class="nav-item">
-				<form th:action="@{/search/study}" class="form-inline" method="get">
-					<input class="form-control mr-sm-2" name="keyword" type="search" placeholder="스터디 찾기">
-				</form>
-			</li>
+			<li class="nav-item"><a class="nav-link" href="#" th:href="@{/}">홈</a></li>
+			<li class="nav-item"><a class="nav-link" href="#" th:href="@{/study}">스터디</a></li>
 		</ul>
 
 		<ul class="navbar-nav justify-content-end">
@@ -96,10 +93,9 @@
 </nav>
 
 <footer th:fragment="footer">
-	<div class="row justify-content-center">
-		<img class="mb-20" src="/images/free-icon-meeting-3855103.png" alt="" width="50" height="50">
-		<small class="d-block mb-3 text-muted">&copy; 2020</small>
-	</div>
+	<p class="row justify-content-center">
+		Motudy &copy;2022
+	</p>
 </footer>
 
 <div th:fragment="settings-menu (currentMenu)" class="list-group">
