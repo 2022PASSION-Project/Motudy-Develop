@@ -42,3 +42,6 @@ gradle\
 gradlew
 gradlew.bat
 settings.gradle.kts
+gradle-wrapper.jar
+gradle-wrapper.properties
+wrapper\
