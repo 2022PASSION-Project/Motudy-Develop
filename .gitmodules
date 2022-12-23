@@ -1,0 +1,3 @@
+[submodule "motudy"]
+	path = motudy
+	url = https://github.com/intrager/Motudy-Develop.git
