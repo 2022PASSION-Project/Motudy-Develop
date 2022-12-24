@@ -6,6 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,13 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
+
+    @Transactional // persist 상태의 객체는 트랜잭션이 끝날 때 상태를 DB에 sink 한다.
+    public void processNewAccount(SignUpForm signUpForm) {
+        Account newAccount = saveNewAccount(signUpForm);
+        newAccount.generateEmailCheckToken();
+        sendSignUpConfirmEmail(newAccount);
+    }
 
     private Account saveNewAccount(SignUpForm signUpForm) {
         Account account = Account.builder()
@@ -35,11 +43,5 @@ public class AccountService {
                 "&email=" + newAccount.getEmail()); // 메일 본문
 
         javaMailSender.send(mailMessage);
-    }
-
-    public void processNewAccount(SignUpForm signUpForm) {
-        Account newAccount = saveNewAccount(signUpForm);
-        newAccount.generateEmailCheckToken();
-        sendSignUpConfirmEmail(newAccount);
     }
 }
