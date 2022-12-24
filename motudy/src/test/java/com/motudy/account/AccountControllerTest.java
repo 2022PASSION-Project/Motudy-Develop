@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -40,14 +42,15 @@ class AccountControllerTest {
                 .param("email", "motudy@email.com"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("error"))
-                .andExpect(view().name("account/checked-email"));
+                .andExpect(view().name("account/checked-email"))
+                .andExpect(unauthenticated()); // Spring Security를 쓰면 mockMvc에 사용 가능
     }
 
     @DisplayName("인증 메일 확인 - 입력값 정상")
     @Test
     void checkEmailToken() throws Exception {
         Account account = Account.builder()
-                .email("test@email.com")
+                .email("motudy@email.com")
                 .password("12345678")
                 .nickname("motudy")
                 .build();
@@ -57,14 +60,13 @@ class AccountControllerTest {
 
         mockMvc.perform(get("/check-email-token")
                 .param("token", newAccount.getEmailCheckToken())
-                .param("email", newAccount.getEmail())
-                        .with(csrf()))
+                .param("email", newAccount.getEmail()))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeDoesNotExist("error"))
                 .andExpect(model().attributeExists("nickname"))
                 .andExpect(model().attributeExists("numberOfUser"))
-                .andExpect(view().name("account/checked-email"));
-
+                .andExpect(view().name("account/checked-email"))
+                .andExpect(authenticated().withUsername("motudy")); // "인증이 된"
     }
 
     /**
@@ -79,7 +81,8 @@ class AccountControllerTest {
         mockMvc.perform(get("/sign-up"))
                 .andExpect(status().isOk()) // 200 응답 확인
                 .andExpect(view().name("account/sign-up")) // 뷰
-                .andExpect(model().attributeExists("signUpForm")); // 모델 객체
+                .andExpect(model().attributeExists("signUpForm")) // 모델 객체
+                .andExpect(unauthenticated());
     }
 
     @DisplayName("회원 가입 처리 - 입력값 오류")
@@ -91,7 +94,8 @@ class AccountControllerTest {
                 .param("password", "12345")
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("account/sign-up"));
+                .andExpect(view().name("account/sign-up"))
+                .andExpect(unauthenticated());
     }
 
     @DisplayName("회원 가입 처리 - 입력값 정상")
@@ -103,7 +107,8 @@ class AccountControllerTest {
                 .param("password", "12345678")
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(view().name("redirect:/"))
+                .andExpect(authenticated().withUsername("motudy"));
 
         Account account = accountRepository.findByEmail("motudy@email.com");
         assertNotNull(account);

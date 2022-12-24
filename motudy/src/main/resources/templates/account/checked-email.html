@@ -39,19 +39,19 @@
 		</div>
 	</nav>
 
-		<div class="py-5 text-center" th:if="${error}">
-			<p class="lead">모터디 이메일 확인</p>
-			<div class="alert alert-danger" role="alert">
-				이메일 확인 링크가 정확하지 않습니다.
-			</div>
+	<div class="py-5 text-center" th:if="${error}">
+		<p class="lead">모터디 이메일 확인</p>
+		<div class="alert alert-danger" role="alert">
+			이메일 확인 링크가 정확하지 않습니다.
 		</div>
-		<div class="py-5 text-center" th:if="${error == null}">
-			<p class="lead">모터디 이메일 확인</p>
-			<h2>
-				이메일을 확인했습니다. <span th:text="${numberOfUser}">1</span>번째 회원,
-				<span th:text="${nickname}">모터디</span>님 인증이 완료되었습니다.
-			</h2>
-			<small class="text-info">이제부터 가입할 때 사용한 이메일 또는 닉네임과 패스워드로 로그인할 수 있습니다.</small>
-		</div>
+	</div>
+	<div class="py-5 text-center" th:if="${error == null}">
+		<p class="lead">모터디 이메일 확인</p>
+		<h2>
+			이메일을 확인했습니다. <span th:text="${numberOfUser}">1</span>번째 회원,
+			<span th:text="${nickname}">모터디</span>님 인증이 완료되었습니다.
+		</h2>
+		<small class="text-info">이제부터 가입할 때 사용한 이메일 또는 닉네임과 패스워드로 로그인할 수 있습니다.</small>
+	</div>
 </body>
 </html>

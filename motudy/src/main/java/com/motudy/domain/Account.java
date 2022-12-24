@@ -70,4 +70,8 @@ public class Account {
         this.emailVerified = true;
         this.joinedAt = LocalDateTime.now();
     }
+
+    public boolean isNotValidToken(String token) {
+        return !this.emailCheckToken.equals(token);
+    }
 }

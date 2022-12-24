@@ -2,19 +2,15 @@ package com.motudy.account;
 
 import com.motudy.domain.Account;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,7 +36,8 @@ public class AccountController {
         if(errors.hasErrors()) { // valid를 이용한 오류 체크
             return "account/sign-up";
         }
-        accountService.processNewAccount(signUpForm);
+        Account account = accountService.processNewAccount(signUpForm);
+        accountService.login(account);
         return "redirect:/";
     }
 
@@ -53,12 +50,14 @@ public class AccountController {
             return view;
         }
 
-        if(!account.getEmailCheckToken().equals(token)) {
+        if(account.isNotValidToken(token)) {
+            // isNotValidToken()이 true면 유효한 토큰이 아닌 것임
             model.addAttribute("error", "wrong.token");
             return view;
         }
 
         account.completeSignUp();
+        accountService.login(account); // account안에 있는 password는 encoding된 password다
         model.addAttribute("numberOfUser", accountRepository.count());
         model.addAttribute("nickname", account.getNickname());
         return view;
