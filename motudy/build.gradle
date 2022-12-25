@@ -1,0 +1,90 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.7'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'com.moowork.node' version '1.3.1' // npm plugin
+}
+
+group = 'com.motudy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal() // https://plugins.gradle.org/m2/
+}
+
+dependencies {
+    // View Template Engine
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Persistence
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Dev
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Test Implementation
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // npm
+    implementation 'com.moowork.gradle:gradle-node-plugin:1.3.1'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
+def generated = 'generated'
+
+sourceSets {
+    main {
+        java {
+            srcDirs += generated
+            //exclude '**/uncompilable/**'
+        }
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+apply plugin: 'com.moowork.node'
+// npm using on gradle project
+tasks.register('npm-Install') {
+    group = 'application'
+    description = 'Installs dependencies from package.json'
+    tasks.appNpmInstall.exec();
+}
+
+task appNpmInstall(type: NpmTask) {
+    // src/main/resources/static
+    description = 'Installs dependencies from package.json'
+    workingDir = file('/src/main/resources/static')
+    args = ['install']
+}
+
+clean.doLast {
+    file(generated).deleteDir()
+}

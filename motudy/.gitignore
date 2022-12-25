@@ -35,13 +35,15 @@ out/
 
 ### VS Code ###
 .vscode/
-.idea\
-build\
-.gradle\
-gradle\
+
+### IntelliJ IDEA ###
 gradlew
 gradlew.bat
-settings.gradle.kts
+settings.gradle
+gradle/
 gradle-wrapper.jar
 gradle-wrapper.properties
-wrapper\
+
+### NPM ###
+node_modules/
+node/
