@@ -20,6 +20,13 @@ public class SecurityConfig {
                         "/email-login", "/check-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
                 .anyRequest().authenticated();
+
+        http.formLogin()
+                .loginPage("/login").permitAll(); // 커스텀한 페이지의 URL 넣을 수 있음
+
+        http.logout()
+                .logoutSuccessUrl("/"); // 로그아웃이 성공했을 때 어디로 보낼지 URL
+
         return http.build();
     }
 

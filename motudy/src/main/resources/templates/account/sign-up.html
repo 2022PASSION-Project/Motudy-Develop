@@ -27,7 +27,7 @@
 				<div class="form-group">
 					<label for="email">이메일</label>
 					<input id="email" type="email" th:field="*{email}" class="form-control"
-						   placeholder="Please input Your Email" aria-describedby="emailHelp" required>
+						   placeholder="Please Input Your Email" aria-describedby="emailHelp" required>
 					<small id="emailHelp" class="form-text text-muted">
 						모터디는 사용자의 이메일을 공개하지 않습니다.
 					</small>
@@ -36,7 +36,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="password">비밀번호</label>
+					<label for="password">패스워드</label>
 					<input id="password" type="password" th:field="*{password}" class="form-control"
 						   aria-describedby="passwordHelp" required minlength="8" maxlength="25">
 					<small id="passwordHelp" class="form-text text-muted">
@@ -58,31 +58,7 @@
 
 		<footer th:replace="fragments.html :: footer"></footer>
 	</div>
-	<script type="application/javascript">
-		(function () {
-            'use strict';
-
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-				var forms = document.getElementsByClassName('needs-validation');
-
-                // Loop over them and prevent submission
-				Array.prototype.filter.call(forms, function (form) {
-					// 이벤트가 발생했을 때
-                    form.addEventListener('submit', function (event) {
-                        // 해당하는 폼이 유효하지 않은지 검증하고
-                        if(form.checkValidity() === false) {
-                            // 유효하지 않으면 폼이 submit이 안 되도록 함
-                            event.preventDefault();
-                            event.stopPropagation();
-						}
-                        // was-validated라는 클래스 추가
-                        form.classList.add('was-validated')
-					}, false)
-				})
-			}, false)
-		}())
-	</script>
+	<script th:replace="fragments.html :: form-validation"></script>
 
 </body>
 </html>

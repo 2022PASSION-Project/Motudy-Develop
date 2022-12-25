@@ -81,3 +81,28 @@
 	</div>
 </footer>
 
+<script type="application/javascript" th:fragment="form-validation">
+	(function () {
+        'use strict';
+
+        window.addEventListener('load', function () {
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.getElementsByClassName('needs-validation');
+
+			// Loop over them and prevent submission
+			Array.prototype.filter.call(forms, function (form) {
+				// 이벤트가 발생했을 때
+				form.addEventListener('submit', function (event) {
+					// 해당하는 폼이 유효하지 않은지 검증하고
+					if(form.checkValidity() === false) {
+						// 유효하지 않으면 폼이 submit이 안 되도록 함
+						event.preventDefault();
+						event.stopPropagation();
+					}
+					// was-validated라는 클래스 추가
+					form.classList.add('was-validated')
+				}, false)
+    		})
+    	}, false)
+    }())
+</script>

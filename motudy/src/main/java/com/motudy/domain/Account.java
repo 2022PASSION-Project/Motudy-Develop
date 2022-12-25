@@ -37,6 +37,8 @@ public class Account {
 
     private String emailCheckToken;
 
+    private LocalDateTime emailCheckTokenGeneratedAt;
+
     private LocalDateTime joinedAt;
 
     private String bio; // 자기소개
@@ -62,7 +64,6 @@ public class Account {
     private boolean studyUpdatedByEmail;
     private boolean studyUpdatedByWeb;
 
-    private LocalDateTime emailCheckTokenGeneratedAt;
 
     public void generateEmailCheckToken() {
         this.emailCheckToken = UUID.randomUUID().toString();

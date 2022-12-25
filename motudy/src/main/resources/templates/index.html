@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head th:replace="fragments.html :: header"></head>
-
 <body class="bg-light">
 	<nav th:replace="fragments.html :: main-nav"></nav>
 	<div class="alert alert-warning" role="alert" th:if="${account != null && !account.emailVerified}">
