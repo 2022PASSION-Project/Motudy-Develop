@@ -62,7 +62,7 @@ public class AccountService {
      */
     public void login(Account account) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                account.getNickname(), // principal
+                new UserAccount(account), // principal 객체
                 account.getPassword(), // password
                 List.of(new SimpleGrantedAuthority("ROLE_USER"))); // 권한(authority)
         SecurityContextHolder.getContext().setAuthentication(token);
