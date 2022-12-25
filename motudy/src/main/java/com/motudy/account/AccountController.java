@@ -8,6 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -79,5 +80,23 @@ public class AccountController {
 
         accountService.sendSignUpConfirmEmail(account);
         return "redirect:/";
+    }
+
+    /**
+     *
+     * @param nickname 에 해당하는 문자열 파싱받음
+     * @param model 에다가 nickname에 해당하는 account정보 넣어줌
+     * @param account 프로필의 주인인지 확인하려면, 요청을 보내고 있는 사람이 누구인지도 알아야 함
+     *   nickname과 account가 일치하면 그 유저의 정보를 조작할 수 있는 권한을 가짐
+     */
+    @GetMapping("/profile/{nickname}")
+    public String viewProfile(@PathVariable String nickname, Model model, @CurrentUser Account account) {
+        Account byNickname = accountRepository.findByNickname(nickname);
+        if(nickname == null) {
+            throw new IllegalArgumentException(nickname + "에 해당하는 사용자가 없습니다.");
+        }
+        model.addAttribute(byNickname); //model.addAttribute("account", byNickname);
+        model.addAttribute("isOwner", byNickname.equals(account)); // 같으면 true
+        return "account/profile";
     }
 }
