@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments.html :: header"></head>
 <body class="bg-light">
-	<nav th:replace="fragments.html :: main-nav" class="navbar navbar-expand-sm navbar-dark bg-dark"></nav>
+	<nav th:replace="fragments.html :: main-nav"></nav>
 
 	<div class="py-5 text-center" th:if="${error}">
 		<p class="lead">모터디 이메일 확인</p>
