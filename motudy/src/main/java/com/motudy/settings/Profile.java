@@ -3,16 +3,22 @@ package com.motudy.settings;
 import com.motudy.domain.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 @NoArgsConstructor // 기본 생성자 생성
 public class Profile {
+
+    @Length(max = 35)
     private String bio;
 
+    @Length(max = 50)
     private String url;
 
+    @Length(max = 50)
     private String occupation;
 
+    @Length(max = 50)
     private String location;
 
     public Profile(Account account) {
