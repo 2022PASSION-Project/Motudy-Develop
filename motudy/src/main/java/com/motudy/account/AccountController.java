@@ -56,9 +56,7 @@ public class AccountController {
             model.addAttribute("error", "wrong.token");
             return view;
         }
-
-        account.completeSignUp();
-        accountService.login(account); // account안에 있는 password는 encoding된 password다
+        accountService.completeSignUp(account);
         model.addAttribute("numberOfUser", accountRepository.count());
         model.addAttribute("nickname", account.getNickname());
         return view;
@@ -83,7 +81,6 @@ public class AccountController {
     }
 
     /**
-     *
      * @param nickname 에 해당하는 문자열 파싱받음
      * @param model 에다가 nickname에 해당하는 account정보 넣어줌
      * @param account 프로필의 주인인지 확인하려면, 요청을 보내고 있는 사람이 누구인지도 알아야 함
