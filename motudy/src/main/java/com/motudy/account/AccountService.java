@@ -1,6 +1,7 @@
 package com.motudy.account;
 
 import com.motudy.domain.Account;
+import com.motudy.settings.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -103,4 +104,13 @@ public class AccountService implements UserDetailsService {
         login(account); // account안에 있는 password는 encoding된 password다
     }
 
+    public void updateProfile(Account account, Profile profile) {
+        account.setUrl(profile.getUrl());
+        account.setOccupation(profile.getOccupation());
+        account.setLocation(profile.getLocation());
+        account.setBio(profile.getBio());
+        // TODO 프로필 이미지
+        accountRepository.save(account); // 업데이트 발생
+        // TODO 문제가 하나 더 남음
+    }
 }
