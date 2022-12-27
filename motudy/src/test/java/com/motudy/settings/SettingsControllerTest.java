@@ -12,11 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.motudy.settings.SettingsController.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,6 +34,8 @@ class SettingsControllerTest {
     @Autowired AccountService accountService;
 
     @Autowired AccountRepository accountRepository;
+
+    @Autowired PasswordEncoder passwordEncoder;
 
     @AfterEach
     void afterEach() {
@@ -81,5 +85,46 @@ class SettingsControllerTest {
 
         Account motudy = accountRepository.findByNickname("motudy");
         assertNull(motudy.getBio());
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("패스워드 변경폼")
+    @Test
+    void updatePasswordForm() throws Exception {
+        mockMvc.perform(get(SETTINGS_PASSWORD_URL))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("passwordForm"));
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("패스워드 변경 - 입력값 정상")
+    @Test
+    void updatePassword() throws Exception {
+        mockMvc.perform(post(SETTINGS_PASSWORD_URL)
+                .param("newPassword", "asdfasdf")
+                .param("newPasswordConfirm", "asdfasdf")
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl(SETTINGS_PASSWORD_URL))
+                .andExpect(flash().attributeExists("message"));
+
+        Account motudy = accountRepository.findByNickname("motudy");
+        assertTrue(passwordEncoder.matches("asdfasdf", motudy.getPassword()));
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("패스워드 변경 - 입력값 에러 - 패스워드 불일치")
+    @Test
+    void updatePassword_error() throws Exception {
+        mockMvc.perform(post(SETTINGS_PASSWORD_URL)
+                .param("newPassword", "asdfasdf")
+                .param("newPasswordConfirm", "qwerqwer")
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(SETTINGS_PASSWORD_VIEW_NAME))
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("passwordForm"));
     }
 }
