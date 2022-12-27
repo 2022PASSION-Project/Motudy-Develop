@@ -1,6 +1,7 @@
 package com.motudy.account;
 
 import com.motudy.domain.Account;
+import com.motudy.settings.PasswordForm;
 import com.motudy.settings.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -111,5 +112,10 @@ public class AccountService implements UserDetailsService {
         account.setBio(profile.getBio());
         account.setProfileImage(profile.getProfileImage());
         accountRepository.save(account); // 업데이트 발생
+    }
+
+    public void updatePassword(Account account, String newPassword) {
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account); // detached 상태라 변경 이력을 추적하지 않기 때문에 명시적으로 merge
     }
 }
