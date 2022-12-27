@@ -54,15 +54,15 @@ public class Account {
 
     // 스터디 만들어졌을 때 알림
     private boolean studyCreatedByEmail;
-    private boolean studyCreatedByWeb;
+    private boolean studyCreatedByWeb = true;
 
     // 스터디 가입 신청 결과 알림
     private boolean studyEnrollmentResultByEmail;
-    private boolean studyEnrollmentResultByWeb;
+    private boolean studyEnrollmentResultByWeb = true;
 
     // 스터디 수정 시 알림
     private boolean studyUpdatedByEmail;
-    private boolean studyUpdatedByWeb;
+    private boolean studyUpdatedByWeb = true;
 
 
     public void generateEmailCheckToken() {

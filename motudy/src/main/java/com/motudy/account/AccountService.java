@@ -1,6 +1,7 @@
 package com.motudy.account;
 
 import com.motudy.domain.Account;
+import com.motudy.settings.Notifications;
 import com.motudy.settings.PasswordForm;
 import com.motudy.settings.Profile;
 import lombok.RequiredArgsConstructor;
@@ -117,5 +118,15 @@ public class AccountService implements UserDetailsService {
     public void updatePassword(Account account, String newPassword) {
         account.setPassword(passwordEncoder.encode(newPassword));
         accountRepository.save(account); // detached 상태라 변경 이력을 추적하지 않기 때문에 명시적으로 merge
+    }
+
+    public void updateNotifications(Account account, Notifications notifications) {
+        account.setStudyCreatedByEmail(notifications.isStudyCreatedByEmail());
+        account.setStudyCreatedByWeb(notifications.isStudyCreatedByWeb());
+        account.setStudyEnrollmentResultByEmail(notifications.isStudyEnrollmentResultByEmail());
+        account.setStudyEnrollmentResultByWeb(notifications.isStudyEnrollmentResultByWeb());
+        account.setStudyUpdatedByEmail(notifications.isStudyUpdatedByEmail());
+        account.setStudyUpdatedByWeb(notifications.isStudyUpdatedByWeb());
+        accountRepository.save(account);
     }
 }
