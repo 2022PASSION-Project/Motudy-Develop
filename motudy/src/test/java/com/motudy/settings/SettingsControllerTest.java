@@ -2,7 +2,6 @@ package com.motudy.settings;
 
 import com.motudy.WithAccount;
 import com.motudy.account.AccountRepository;
-import com.motudy.account.AccountService;
 import com.motudy.domain.Account;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,17 +24,53 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class SettingsControllerTest {
 
     @Autowired MockMvc mockMvc;
-
-    @Autowired AccountService accountService;
-
     @Autowired AccountRepository accountRepository;
-
     @Autowired PasswordEncoder passwordEncoder;
 
     @AfterEach
     void afterEach() {
         // 커스터마이징으로 만든 @WithAccount("motudy") 계정을 매 테스트마다 지워야 함
         accountRepository.deleteAll();
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("닉네임 수정 폼")
+    @Test
+    void updateAccountForm() throws Exception {
+        mockMvc.perform(get(SETTINGS_ACCOUNT_URL))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("nicknameForm"));
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("닉네임 수정하기 - 입력값 정상")
+    @Test
+    void updateAccount() throws Exception {
+        String newNickname = "studyGroup";
+        mockMvc.perform(post(SETTINGS_ACCOUNT_URL)
+                .param("nickname", newNickname)
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl(SETTINGS_ACCOUNT_URL))
+                .andExpect(flash().attributeExists("message"));
+
+        assertNotNull(accountRepository.findByNickname(newNickname));
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("닉네임 수정하기 - 입력값 에러")
+    @Test
+    void updateAccount_failure() throws Exception {
+        String newNickname = "學習-工夫-開發"; // 학습-공부-개발
+        mockMvc.perform(post(SETTINGS_ACCOUNT_URL)
+                .param("nickname", newNickname)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(SETTINGS_ACCOUNT_VIEW_NAME))
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("nicknameForm"));
     }
 
     @WithAccount("motudy")
@@ -74,9 +109,9 @@ class SettingsControllerTest {
                 .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(SETTINGS_PROFILE_VIEW_NAME))
+                .andExpect(model().hasErrors())
                 .andExpect(model().attributeExists("account"))
-                .andExpect(model().attributeExists("profile"))
-                .andExpect(model().hasErrors());
+                .andExpect(model().attributeExists("profile"));
 
         Account motudy = accountRepository.findByNickname("motudy");
         assertNull(motudy.getBio());

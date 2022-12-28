@@ -64,7 +64,6 @@ public class Account {
     private boolean studyUpdatedByEmail;
     private boolean studyUpdatedByWeb = true;
 
-
     public void generateEmailCheckToken() {
         this.emailCheckToken = UUID.randomUUID().toString();
         this.emailCheckTokenGeneratedAt = LocalDateTime.now();

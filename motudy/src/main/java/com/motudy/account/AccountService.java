@@ -1,9 +1,9 @@
 package com.motudy.account;
 
 import com.motudy.domain.Account;
-import com.motudy.settings.Notifications;
-import com.motudy.settings.PasswordForm;
-import com.motudy.settings.Profile;
+import com.motudy.settings.form.NicknameForm;
+import com.motudy.settings.form.Notifications;
+import com.motudy.settings.form.Profile;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
@@ -119,12 +119,14 @@ public class AccountService implements UserDetailsService {
     }
 
     public void updateNotifications(Account account, Notifications notifications) {
-        account.setStudyCreatedByEmail(notifications.isStudyCreatedByEmail());
-        account.setStudyCreatedByWeb(notifications.isStudyCreatedByWeb());
-        account.setStudyEnrollmentResultByEmail(notifications.isStudyEnrollmentResultByEmail());
-        account.setStudyEnrollmentResultByWeb(notifications.isStudyEnrollmentResultByWeb());
-        account.setStudyUpdatedByEmail(notifications.isStudyUpdatedByEmail());
-        account.setStudyUpdatedByWeb(notifications.isStudyUpdatedByWeb());
-        accountRepository.save(account);
+        modelMapper.map(notifications, account);
+        accountRepository.save(account); // 명시적으로 save
+    }
+
+    public void updateNickname(Account account, String nickname) {
+        // account는 detached 상태 객체라서 변경 이력을 감지하지 않았기 때문에 자동으로 DB 반영 안 해줌
+        account.setNickname(nickname);
+        accountRepository.save(account); // save할 때 merge가 일어난다
+        login(account);
     }
 }

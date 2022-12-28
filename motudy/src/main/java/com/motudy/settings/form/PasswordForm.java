@@ -1,4 +1,4 @@
-package com.motudy.settings;
+package com.motudy.settings.form;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

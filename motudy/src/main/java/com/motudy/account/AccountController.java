@@ -96,4 +96,12 @@ public class AccountController {
         model.addAttribute("isOwner", byNickname.equals(account)); // 같으면 true
         return "account/profile";
     }
+
+    @GetMapping("/email-login")
+    public String emailLoginForm() {
+        return "account/email-login";
+    }
+
+    @PostMapping("/email-login")
+    public String sendEmailLoginLink(String email, Model)
 }
