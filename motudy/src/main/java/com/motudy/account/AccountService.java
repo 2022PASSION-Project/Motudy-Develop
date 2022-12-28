@@ -1,7 +1,7 @@
 package com.motudy.account;
 
+import com.motudy.account.form.SignUpForm;
 import com.motudy.domain.Account;
-import com.motudy.settings.form.NicknameForm;
 import com.motudy.settings.form.Notifications;
 import com.motudy.settings.form.Profile;
 import lombok.RequiredArgsConstructor;
@@ -128,5 +128,15 @@ public class AccountService implements UserDetailsService {
         account.setNickname(nickname);
         accountRepository.save(account); // save할 때 merge가 일어난다
         login(account);
+    }
+
+    public void sendLoginLink(Account account) {
+        account.generateEmailCheckToken();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(account.getEmail());
+        mailMessage.setSubject("모터디, 로그인 링크");
+        mailMessage.setText("/login-by-email?token=" + account.getEmailCheckToken() +
+                "&email=" + account.getEmail());
+        javaMailSender.send(mailMessage);
     }
 }

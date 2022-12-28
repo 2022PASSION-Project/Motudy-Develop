@@ -2,7 +2,7 @@ package com.motudy.main;
 
 import com.motudy.account.AccountRepository;
 import com.motudy.account.AccountService;
-import com.motudy.account.SignUpForm;
+import com.motudy.account.form.SignUpForm;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

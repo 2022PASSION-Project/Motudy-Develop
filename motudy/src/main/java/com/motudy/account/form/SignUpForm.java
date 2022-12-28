@@ -1,4 +1,4 @@
-package com.motudy.account;
+package com.motudy.account.form;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

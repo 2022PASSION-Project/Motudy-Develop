@@ -1,5 +1,7 @@
-package com.motudy.account;
+package com.motudy.account.validator;
 
+import com.motudy.account.AccountRepository;
+import com.motudy.account.form.SignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

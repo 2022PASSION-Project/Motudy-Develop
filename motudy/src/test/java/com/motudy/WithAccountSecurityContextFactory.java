@@ -1,7 +1,7 @@
 package com.motudy;
 
 import com.motudy.account.AccountService;
-import com.motudy.account.SignUpForm;
+import com.motudy.account.form.SignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
