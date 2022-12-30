@@ -9,7 +9,7 @@
 				<div th:replace="fragments.html :: settings-menu(currentMenu='notifications')"></div>
 			</div>
 			<div class="col-8">
-				<div th:if="message" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+				<div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
 					<span th:text="${message}">완료</span>
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
