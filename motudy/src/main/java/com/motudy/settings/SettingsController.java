@@ -132,12 +132,26 @@ public class SettingsController {
     public ResponseEntity addTag(@CurrentUser Account account, @RequestBody TagForm tagForm) {
         String title = tagForm.getTagTitle();
         // tag의 title을 찾아보고, 없으면 title에 해당하는 것을 저장 후 받아오기
-        Tag tag = tagRepository.findByTitle(title).orElseGet(() -> tagRepository.save(Tag.builder()
-                .title(tagForm.getTagTitle())
-                .build()));
+        Tag tag = tagRepository.findByTitle(title);
+        if(tag == null) {
+            tag = tagRepository.save(Tag.builder().title(title).build());
+        }
         accountService.addTag(account, tag);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping(SETTINGS_TAGS_URL + "/remove")
+    @ResponseBody
+    public ResponseEntity removeTag(@CurrentUser Account account, @RequestBody TagForm tagForm) {
+        String title = tagForm.getTagTitle();
+        Tag tag = tagRepository.findByTitle(title);
+        if(tag == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        accountService.removeTag(account, tag);
+        return ResponseEntity.ok().build();
+    }
+
 
     @GetMapping(SETTINGS_ACCOUNT_URL)
     public String updateAccountForm(@CurrentUser Account account, Model model) {
