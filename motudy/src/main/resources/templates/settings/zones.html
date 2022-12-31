@@ -30,7 +30,7 @@
 	<script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
 	<script type="application/javascript">
 		$(function () {
-			function tagRequest(url, tagTitle) {
+			function tagRequest(url, zoneName) {
                 $.ajax({
 					dataType: "json",
 					autocomplete: {
@@ -39,8 +39,8 @@
 					},
 					contentType: "application/json; charset=utf-8",
 					method: "POST",
-					url: "/settings/tags" + url,
-					data: JSON.stringify({'tagTitle': tagTitle})
+					url: "/settings/zones" + url,
+					data: JSON.stringify({'zoneName': zoneName})
 				}).done(function (data, status) {
                     console.log(`${data} and status is ${status}`);
 				});
