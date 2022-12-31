@@ -1,16 +1,23 @@
 package com.motudy.settings;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.motudy.WithAccount;
 import com.motudy.account.AccountRepository;
+import com.motudy.account.AccountService;
 import com.motudy.domain.Account;
+import com.motudy.domain.Tag;
+import com.motudy.settings.form.TagForm;
+import com.motudy.tag.TagRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.motudy.settings.SettingsController.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 class SettingsControllerTest {
@@ -26,11 +34,66 @@ class SettingsControllerTest {
     @Autowired MockMvc mockMvc;
     @Autowired AccountRepository accountRepository;
     @Autowired PasswordEncoder passwordEncoder;
+    @Autowired ObjectMapper objectMapper;
+    @Autowired TagRepository tagRepository;
+    @Autowired AccountService accountService;
 
     @AfterEach
     void afterEach() {
         // 커스터마이징으로 만든 @WithAccount("motudy") 계정을 매 테스트마다 지워야 함
         accountRepository.deleteAll();
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("계정의 태그 수정 폼")
+    @Test
+    void updateTagsForm() throws Exception {
+        mockMvc.perform(get(SETTINGS_TAGS_URL))
+                .andExpect(view().name(SETTINGS_TAGS_VIEW_NAME))
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("whitelist"))
+                .andExpect(model().attributeExists("tags"));
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("계정에 태그 추가")
+    @Test
+    void addTag() throws Exception {
+        TagForm tagForm = new TagForm();
+        tagForm.setTagTitle("newTag");
+
+        mockMvc.perform(post(SETTINGS_TAGS_URL + "/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(tagForm)) // "{\"tagTitle\":\"newTag\"}"
+                .with(csrf()))
+                .andExpect(status().isOk());
+
+        Tag newTag = tagRepository.findByTitle("newTag");
+        assertNotNull(newTag);
+        Account motudy = accountRepository.findByNickname("motudy"); // 가져온 순간 detached 상태
+        assertTrue(motudy.getTags().contains(newTag)); // Persist 상태에서 LAZY 로딩 가능
+    }
+
+    @WithAccount("motudy")
+    @DisplayName("계정에 태그 삭제")
+    @Test
+    void removeTag() throws Exception {
+        Account motudy = accountRepository.findByNickname("motudy");
+        Tag newTag = tagRepository.save(Tag.builder().title("newTag").build());
+        accountService.addTag(motudy, newTag);
+
+        assertTrue(motudy.getTags().contains(newTag));
+
+        TagForm tagForm = new TagForm();
+        tagForm.setTagTitle("newTag");
+
+        mockMvc.perform(post(SETTINGS_TAGS_URL + "/remove")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(tagForm))
+                .with(csrf()))
+                .andExpect(status().isOk());
+
+        assertFalse(motudy.getTags().contains(newTag));
     }
 
     @WithAccount("motudy")

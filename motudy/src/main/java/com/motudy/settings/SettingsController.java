@@ -128,7 +128,7 @@ public class SettingsController {
         model.addAttribute("tags", tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
 
         List<String> allTags = tagRepository.findAll().stream().map(Tag::getTitle).collect(Collectors.toList());
-        model.addAttribute("whiteList", objectMapper.writeValueAsString(allTags));
+        model.addAttribute("whitelist", objectMapper.writeValueAsString(allTags));
 
         return SETTINGS_TAGS_VIEW_NAME;
     }
