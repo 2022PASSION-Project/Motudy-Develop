@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,10 +16,10 @@ public class Study {
     private Long id;
 
     @ManyToMany
-    private Set<Account> managers;
+    private Set<Account> managers = new HashSet<>();
 
     @ManyToMany
-    private Set<Account> members;
+    private Set<Account> members = new HashSet<>();
 
     @Column(unique = true)
     private String path;
@@ -32,10 +33,10 @@ public class Study {
     private String image; // 배너 이미지
 
     @ManyToMany
-    private Set<Tag> tags; // 관심 주제
+    private Set<Tag> tags = new HashSet<>(); // 관심 주제
 
     @ManyToMany
-    private Set<Zone> zones; // 지역 정보
+    private Set<Zone> zones = new HashSet<>(); // 지역 정보
 
     private LocalDateTime publishedDateTime; // 스터디를 공개한 시간
 
@@ -50,4 +51,8 @@ public class Study {
     private boolean closed; // 스터디 종료 여부
 
     private boolean useBanner; // 배너 사용 여부
+
+    public void addManager(Account account) {
+        this.managers.add(account);
+    }
 }
