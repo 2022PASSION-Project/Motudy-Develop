@@ -42,11 +42,11 @@ class MainControllerTest {
         accountRepository.deleteAll();
     }
 
-    @DisplayName("닉네임으로 로그인 성공")
+    @DisplayName("이메일로 로그인 성공")
     @Test
     void login_with_email() throws Exception {
         mockMvc.perform(post("/login")
-                .param("username", "motudy@email.com")
+                .param("username", "motudy")
                 .param("password", "12345678")
                 .with(csrf())) // 폼에 계정 정보 전달할 때 csrf토큰도 같이 보냄
                 .andExpect(status().is3xxRedirection())
@@ -58,7 +58,7 @@ class MainControllerTest {
          */
     }
 
-    @DisplayName("이메일로 로그인 성공")
+    @DisplayName("닉네임으로 로그인 성공")
     @Test
     void login_with_nickname() throws Exception {
         mockMvc.perform(post("/login")

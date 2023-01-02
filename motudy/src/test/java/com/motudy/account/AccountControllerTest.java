@@ -107,7 +107,7 @@ class AccountControllerTest {
                 .param("nickname", "motudy")
                 .param("email", "motudy@email.com")
                 .param("password", "12345678")
-                        .with(csrf()))
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"))
                 .andExpect(authenticated().withUsername("motudy"));
