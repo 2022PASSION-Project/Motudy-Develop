@@ -66,13 +66,13 @@ public class AccountController {
     }
 
     @GetMapping("/check-email")
-    public String checkEmail(@CurrentUser Account account, Model model) {
+    public String checkEmail(@CurrentAccount Account account, Model model) {
         model.addAttribute("email", account.getEmail());
         return "account/check-email";
     }
 
     @GetMapping("/resend-confirm-email")
-    public String resendConfirmEmail(@CurrentUser Account account, Model model) {
+    public String resendConfirmEmail(@CurrentAccount Account account, Model model) {
         if(!account.canSendConfirmEmail()) {
             model.addAttribute("error", "인증 이메일은 1시간에 한 번만 전송할 수 있습니다.");
             model.addAttribute("email", account.getEmail());
@@ -90,7 +90,7 @@ public class AccountController {
      *   nickname과 account가 일치하면 그 유저의 정보를 조작할 수 있는 권한을 가짐
      */
     @GetMapping("/profile/{nickname}")
-    public String viewProfile(@PathVariable String nickname, Model model, @CurrentUser Account account) {
+    public String viewProfile(@PathVariable String nickname, Model model, @CurrentAccount Account account) {
         Account byNickname = accountRepository.findByNickname(nickname);
         if(nickname == null) {
             throw new IllegalArgumentException(nickname + "에 해당하는 사용자가 없습니다.");
