@@ -9,12 +9,7 @@
 				<div th:replace="fragments.html :: settings-menu(currentMenu='profile')"></div>
 			</div>
 			<div class="col-8">
-				<div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
-					<span th:text="${message}">메시지</span>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
+				<div th:replace="fragments.html :: message"></div>
 				<div class="row">
 					<h2 class="col-sm-12" th:text="${account.nickname}">Motudy</h2>
 				</div>
@@ -134,7 +129,7 @@
                             let img = document.createElement("img");
                             img.id = 'new-profile';
                             img.src = e.target.result;
-                            img.width = 250;
+                            img.setAttribute('width', '100%');
 
                             $newProfileImage.html(img); // 영역에다가 새로운 이미지 태그 추가
                             $newProfileImage.show(); // 새로 영역 보여줌

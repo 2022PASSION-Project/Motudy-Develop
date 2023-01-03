@@ -152,7 +152,7 @@
 </script>
 
 <div th:fragment="study-banner" th:if="${study.useBanner}" class="row" id="study-logo">
-	<img th:src="${study.image}" />
+	<img th:src="${study.banner}" />
 </div>
 
 <div th:fragment="study-info">
@@ -254,8 +254,8 @@
 <div th:fragment="study-settings-menu (currentMenu)" class="list-group">
 	<a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'description'}? active"
 	   href="#" th:href="@{'/study/' + ${study.path} + '/settings/description'}">소개</a>
-	<a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'image'}? active"
-	   href="#" th:href="@{'/study/' + ${study.path} + '/settings/image'}">배너 이미지</a>
+	<a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'banner'}? active"
+	   href="#" th:href="@{'/study/' + ${study.path} + '/settings/banner'}">배너 이미지</a>
 	<a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'tags'}? active"
 	   href="#" th:href="@{'/study/' + ${study.path} + '/settings/tags'}">스터디 주제</a>
 	<a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'zones'}? active"
@@ -278,6 +278,17 @@
 	</script>
 </div>
 
+<div th:fragment="message" th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+	<span th:text="${message}">메시지</span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
 
+<script th:fragment="tooltip" type="application/javascript">
+	$(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+	})
+</script>
 
 </html>

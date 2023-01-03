@@ -53,7 +53,39 @@ public class StudySettingsController {
         return "redirect:/study/" + getPath(path) + "/settings/description";
     }
 
+    @GetMapping("/banner")
+    public String studyBannerForm(@CurrentAccount Account account, @PathVariable String path, Model model) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        model.addAttribute(account);
+        model.addAttribute(study);
+        return "study/settings/banner";
+    }
+
+    @PostMapping("/banner")
+    public String studyBannerSubmit(@CurrentAccount Account account, @PathVariable String path,
+                                    String banner, RedirectAttributes attributes) {
+        // 로직은 가급적이면 도메인 클래스, 혹은 필요에 의해서는(트랜잭션, repository와의 연계 작업) 주로 서비스쪽으로 넘김
+        Study study = studyService.getStudyToUpdate(account, path);
+        studyService.updateStudyBanner(study, banner);
+        attributes.addFlashAttribute("message", "배너 이미지가 변경됐습니다.");
+        return "redirect:/study/" + getPath(path) + "/settings/banner";
+    }
+
     private String getPath(String path) {
         return URLEncoder.encode(path, StandardCharsets.UTF_8);
+    }
+
+    @PostMapping("/banner/enable")
+    public String enableStudyBanner(@CurrentAccount Account account, @PathVariable String path) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        studyService.enableStudyBanner(study);
+        return "redirect:/study/" + getPath(path) + "/settings/banner";
+    }
+
+    @PostMapping("/banner/disable")
+    public String disableStudyBanner(@CurrentAccount Account account, @PathVariable String path) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        studyService.disableStudyBanner(study);
+        return "redirect:/study/" + getPath(path) + "/settings/banner";
     }
 }

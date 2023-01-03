@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: header"></head>
+<body class="bg-light">
+	<nav th:replace="fragments.html :: main-nav"></nav>
+	<div th:replace="fragments.html :: study-banner"></div>
+	<div class="container">
+		<div th:replace="fragments.html :: study-info"></div>
+		<div th:replace="fragments.html :: study-menu(studyMenu='settings')"></div>
+		<div class="row mt-3 justify-content-center">
+			<div class="col-2">
+				<div th:replace="fragments.html :: study-settings-menu(currentMenu='banner')"></div>
+			</div>
+			<div class="col-8">
+				<div th:replace="fragments.html :: message"></div>
+				<div class="row">
+					<h2 class="col-sm-12">배너 이미지 사용</h2>
+				</div>
+				<form th:if="${!study.useBanner}" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/banner/enable'}" method="post" novalidate>
+					<div class="alert alert-primary" role="alert">
+						스터디 메뉴에서 스터디 배너 이미지를 사용합니다. 스터디 배너 이미지를 아직 설정하지 않았다면, 기본 배너 이미지를 사용합니다.
+					</div>
+					<div class="form-group">
+						<button class="btn btn-outline-primary btn-block" type="submit" aria-describedby="submitHelp">배너 이미지 사용하기</button>
+					</div>
+				</form>
+				<form th:if="${study.useBanner}" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/banner/disable'}" method="post" novalidate>
+					<div class="alert alert-info" role="alert">
+						스터디 메뉴에서 스터디 배너 이미지를 사용하지 않습니다. 스터디 목록에서는 배너 이미지를 사용합니다.
+					</div>
+					<div class="form-group">
+						<button class="btn btn-outline-primary btn-block" type="submit" aria-describedby="submitHelp">배너 이미지 사용하지 않기</button>
+					</div>
+				</form>
+				<hr/>
+				<div class="row">
+					<h2 class="col-sm-12">배너 이미지 변경</h2>
+				</div>
+				<form id="bannerForm" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/banner'}" method="post" novalidate>
+					<div class="form-group">
+						<input id="studyBanner" type="hidden" name="banner" class="form-control" />
+					</div>
+				</form>
+				<div class="card text-center">
+					<div id="current-study-banner" class="mt-3">
+						<img class="rounded" th:src="${study.banner}" width="640" alt="name" th:alt="${study.title}" />
+					</div>
+					<div id="new-study-banner" class="mt-3"></div>
+					<div class="card-body">
+						<div class="custom-file">
+							<input type="file" class="custom-file-input" id="study-banner-file" />
+							<label class="custom-file-label" for="study-banner-file">스터디 이미지 변경</label>
+						</div>
+						<div id="new-study-banner-control" class="mt-3">
+							<button class="btn btn-outline-primary btn-block" id="cut-button">자르기</button>
+							<button class="btn btn-outline-success btn-block" id="confirm-button">확인</button>
+							<button class="btn btn-primary btn-block" id="save-button">저장</button>
+							<button class="btn btn-outline-warning btn-block" id="reset-button">취소</button>
+						</div>
+						<div id="cropped-new-study-banner" class="mt-3"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer th:replace="fragments.html :: footer"></footer>
+	</div>
+	<script th:replace="fragments.html :: tooltip"></script>
+	<link href="/node_modules/cropper/dist/cropper.min.css" rel="stylesheet">
+	<script src="/node_modules/cropper/dist/cropper.min.js"></script>
+	<script src="/node_modules/jquery-cropper/dist/jquery-cropper.min.js"></script>
+	<script type="application/javascript">
+        $(function () { // jQuery 실행될 수 있도록 하는 문법
+            cropper = '';
+            let $confirmBtn = $("#confirm-button"); // 확인
+            let $resetBtn = $("#reset-button"); // 취소
+            let $cutBtn = $("#cut-button"); // 잘라내기
+			let $saveBtn = $("#save-button");
+            let $newStudyBanner = $("#new-study-banner"); // 새로 선택한 이미지
+            let $currentStudyBanner = $("#current-study-banner"); // 현재 이미지
+            let $resultBanner = $("#cropped-new-study-banner"); // 잘라낸 영역만을 나타낸 이미지
+            let $studyBanner = $("#studyBanner"); // 최종적으로 설정해야 할 이미지(form에다가 넣어줘야 할 값)
+
+            // 일단 프로필 이미지 수정을 진행하지 않았으면 숨김
+            $newStudyBanner.hide();
+            $cutBtn.hide();
+            $resetBtn.hide();
+            $confirmBtn.hide();
+            $saveBtn.hide();
+
+            // "프로필 이미지 변경" [browse] 이게 바뀌면 시작
+            $("#study-banner-file").change(function (e) {
+                // 파일을 하나 선택했으면 읽어옴
+                if(e.target.files.length === 1) {
+                    const reader = new FileReader(); // 파일을 읽어올 수 있는 것
+                    reader.onload = e => {
+                        if(e.target.result) { // 파일을 이미 가져온 상태
+                            if(!e.target.result.startsWith("data:image")) { // data URL이 image로 시작한 게 아니라면
+                                alert("이미지 파일을 선택하세요.");
+                                return;
+							}
+                            // 가져온 이미지를 채워 넣음
+                            let img = document.createElement("img");
+                            img.id = 'new-Study';
+                            img.src = e.target.result;
+                            img.setAttribute('width', '100%');
+
+                            $newStudyBanner.html(img); // 영역에다가 새로운 이미지 태그 추가
+                            $newStudyBanner.show(); // 새로 영역 보여줌
+                            $currentStudyBanner.hide(); // 현재 이미지 파일 숨김(새 이미지를 보여줌)
+
+                            let $newBanner = $(img); // img를 jQuery로 감쌈
+                            // cropper 적용
+                            $newBanner.cropper({aspectRatio: 13/2});
+                            cropper = $newBanner.data('cropper');
+
+                            // 잘라내기, 취소 버튼은 보여주고 확인 버튼은 숨김
+                            $cutBtn.show();
+                            $confirmBtn.hide(); // 잘라낸 다음에 써야하기 때문에 숨김
+                            $resetBtn.show();
+                        }
+                    };
+
+                    // 그 파일을 읽어옴
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            // 취소 버튼을 클릭하면
+            $resetBtn.click(function () {
+                $currentStudyBanner.show();
+                $newStudyBanner.hide();
+                $resultBanner.hide();
+                $resetBtn.hide();
+                $cutBtn.hide();
+                $confirmBtn.hide();
+                $saveBtn.hide();
+                $studyBanner.val(''); // 최종적으로 세팅해야되는 값을 비어있는 문자열로 다시 세팅함(아무 일도 안 일어나게 됨)
+            });
+
+            // 잘라내기를 수행하면
+            $cutBtn.click(function () {
+                let dataUrl = cropper.getCroppedCanvas().toDataURL();
+
+                if(dataUrl.length > 1000 * 1024) {
+                    alert("이미지 파일이 너무 큽니다. 1024000 보다 작은 파일을 사용하세요. 현재 이미지 사이즈 " + dataUrl.length);
+                    return;
+				}
+
+                let newBanner = document.createElement("img");
+                // 새로 잘라낸 이미지
+                newBanner.id = "cropped-new-study-banner";
+                newBanner.src = dataUrl;
+                newBanner.width = 640;
+                $resultBanner.html(newBanner);
+                $resultBanner.show();
+                $confirmBtn.show(); // 잘라내기를 수행하면 확인 버튼 보여줌
+
+                // 잘라낸 영역 만큼만 StudyImage에 세팅
+                $confirmBtn.click(function () {
+                    $newStudyBanner.html(newBanner);
+                    $cutBtn.hide();
+                    $confirmBtn.hide();
+                    $studyBanner.val(dataUrl);
+                    $saveBtn.show();
+                });
+            });
+            
+            $saveBtn.click(function (){
+                $("#bannerForm").submit();
+			});
+        });
+	</script>
+</body>
+</html>

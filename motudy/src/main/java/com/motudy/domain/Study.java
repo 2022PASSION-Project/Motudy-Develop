@@ -38,7 +38,7 @@ public class Study {
     private String fullDescription;
 
     @Lob @Basic(fetch = FetchType.EAGER)
-    private String image; // 배너 이미지
+    private String banner; // 배너 이미지
 
     @ManyToMany
     private Set<Tag> tags = new HashSet<>(); // 관심 주제
@@ -76,5 +76,9 @@ public class Study {
 
     public boolean isManager(UserAccount userAccount) {
         return this.managers.contains(userAccount.getAccount());
+    }
+
+    public String getBanner() {
+        return banner != null ? banner : "/images/default_banner.jpg";
     }
 }
