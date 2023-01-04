@@ -1,4 +1,4 @@
-package com.motudy.account.zone;
+package com.motudy.zone;
 
 import com.motudy.domain.Zone;
 import lombok.RequiredArgsConstructor;
@@ -33,4 +33,5 @@ public class ZoneService {
             zoneRepository.saveAll(zoneList);
         }
     }
+
 }

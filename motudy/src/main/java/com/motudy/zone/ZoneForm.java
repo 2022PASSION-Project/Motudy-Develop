@@ -1,4 +1,4 @@
-package com.motudy.settings.form;
+package com.motudy.zone;
 
 import com.motudy.domain.Zone;
 import lombok.Data;

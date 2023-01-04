@@ -1,4 +1,4 @@
-package com.motudy.account.zone;
+package com.motudy.zone;
 
 import com.motudy.domain.Zone;
 import org.springframework.data.jpa.repository.JpaRepository;

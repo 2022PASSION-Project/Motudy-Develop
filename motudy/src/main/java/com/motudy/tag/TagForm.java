@@ -1,4 +1,4 @@
-package com.motudy.settings.form;
+package com.motudy.tag;
 
 import lombok.Data;
 

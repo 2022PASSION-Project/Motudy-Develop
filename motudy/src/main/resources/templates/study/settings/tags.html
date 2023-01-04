@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments.html :: header"></head>
-<body class="bg-light">
+<body>
 	<nav th:replace="fragments.html :: main-nav"></nav>
+	<div th:replace="fragments.html :: study-banner"></div>
 	<div class="container">
-		<div class="row mt-5 justify-content-center">
+		<div th:replace="fragments.html :: study-info"></div>
+		<div th:replace="fragments.html :: study-menu(studyMenu='settings')"></div>
+		<div class="row mt-3 justify-content-center">
 			<div class="col-2">
-				<div th:replace="fragments.html :: settings-menu(currentMenu='tags')"></div>
+				<div th:replace="fragments.html :: study-settings-menu(currentMenu='tags')"></div>
 			</div>
 			<div class="col-8">
 				<div class="row">
-					<h2 class="col-sm-12">관심있는 스터디 주제</h2>
+					<h2 class="col-sm-12">스터디 주제</h2>
 				</div>
 				<div class="row">
 					<div class="col-12">
 						<div class="alert alert-info" role="alert">
-							참여하고 싶은 스터디 주제를 입력해 주세요. 해당 주제의 스터디가 생기면 알림을 받을 수 있습니다. 태그를 입력하고 콤마(,)
-							또는 엔터를 입력하세요.
+							스터디에서 주로 다루는 태그로 등록하세요. 태그를 입력하고 콤마(,) 또는 엔터를 입력하세요.
 						</div>
 						<div id="whitelist" th:text="${whitelist}" hidden></div>
 						<input id="tags" type="text" name="tags" th:value="${#strings.listJoin(tags, ',')}"
@@ -25,8 +27,9 @@
 				</div>
 			</div>
 		</div>
+		<div th:replace="fragments.html :: footer"></div>
 	</div>
 	<script th:replace="fragments.html :: ajax-csrf-header"></script>
-	<script th:replace="fragments.html :: update-tags(baseUrl='/settings/tags')"></script>
+	<script th:replace="fragments.html :: update-tags(baseUrl='/study/' + ${study.path} + '/settings/tags')"></script>
 </body>
 </html>
