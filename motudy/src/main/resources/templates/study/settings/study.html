@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: header"></head>
+<body class="bg-light">
+	<nav th:replace="fragments.html :: main-nav"></nav>
+	<div th:replace="fragments.html :: study-banner"></div>
+	<div class="container">
+		<div th:replace="fragments.html :: study-info"></div>
+		<div th:replace="fragments.html :: study-menu(studyMenu='settings')"></div>
+		<div class="row mt-3 justify-content-center">
+			<div class="col-2">
+				<div th:replace="fragments.html :: study-settings-menu(currentMenu='study')"></div>
+			</div>
+			<div class="col-8">
+				<div th:replace="fragments.html :: message"></div>
+				<div class="row">
+					<h5 class="col-sm-12">스터디 공개 및 종료</h5>
+					<form th:if="${!study.published && !study.closed}" class="col-sm-12" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/study/publish'}" method="post" novalidate>
+						<div class="alert alert-info" role="alert">
+							스터디를 다른 사용자에게 공개할 준비가 되었다면 버튼을 클릭하세요.<br/>
+							소개, 배너 이미지, 스터디 주제 및 활동 지역을 등록했는지 확인하세요.<br/>
+							스터디를 공개하면 주요 활동 지역과 스터디 주제에 관심있는 다른 사용자에게 알림을 전송합니다.
+						</div>
+						<div class="form-group">
+							<button class="btn btn-outline-primary" type="submit" aria-describedby="submitHelp">스터디 공개</button>
+						</div>
+					</form>
+					<form th:if="${study.published && !study.closed}" class="col-sm-12" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/study/close'}" method="post" novalidate>
+						<div class="alert alert-warning" role="alert">
+							스터디 활동을 마쳤다면 스터디를 종료하세요.<br/>
+							스터디를 종료하면 더이상 팀원을 모집하거나 모임을 만들 수 없으며, 스터디 경로와 이름을 수정할 수 없습니다.<br/>
+							스터디 모임과 참여한 팀원의 기록은 그대로 보관합니다.
+						</div>
+						<div class="form-group">
+							<button class="btn btn-outline-warning" type="submit" aria-describedby="submitHelp">스터디 종료</button>
+						</div>
+					</form>
+					<div th:if="${study.closed}" class="col-sm-12 alert alert-info">
+						이 스터디는 <span class="date-time" th:text="${study.closedDateTime}"></span>에 종료됐습니다. <br/>
+						다시 스터디를 진행하고 싶다면 새로운 스터디를 만드세요. <br/>
+					</div>
+				</div>
+
+				<hr th:if="${!study.closed && !study.recruiting && study.published}" />
+				<div class="row" th:if="${!study.closed && !study.recruiting && study.published}">
+					<h5 class="col-sm-12">팀원 모집</h5>
+					<form class="col-sm-12" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/recruit/start'}" method="post" novalidate>
+						<div class="alert alert-info" role="alert">
+							팀원을 모집합니다.<br/>
+							충분한 스터디 팀원을 모집했다면 모집을 멈출 수 있습니다.<br/>
+							팀원 모집 정보는 1시간에 한번만 바꿀 수 있습니다.
+						</div>
+						<div class="form-group">
+							<button class="btn btn-outline-primary" type="submit" aria-describedby="submitHelp">팀원 모집 시작</button>
+						</div>
+					</form>
+				</div>
+
+				<hr th:if="${!study.closed && study.recruiting && study.published}" />
+				<div class="row" th:if="${!study.closed && study.recruiting && study.published}">
+					<h5 class="col-sm-12">팀원 모집</h5>
+					<form class="col-sm-12" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/recruit/stop'}" method="post" novalidate>
+						<div class="alert alert-primary" role="alert">
+							팀원 모집을 중답합니다.<br/>
+							팀원 충원이 필요할 때 다시 팀원 모집을 시작할 수 있습니다.<br/>
+							팀원 모집 정보는 1시간에 한번만 바꿀 수 있습니다.
+						</div>
+						<div class="form-group">
+							<button class="btn btn-outline-primary" type="submit" aria-describedby="submitHelp">팀원 모집 중단</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div th:replace="fragments.html :: footer"></div>
+	</div>
+	<script th:replace="fragments.html :: tooltip"></script>
+	<script th:replace="fragments.html :: form-validation"></script>
+</body>
+</html>

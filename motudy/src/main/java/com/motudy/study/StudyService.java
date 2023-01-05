@@ -61,8 +61,16 @@ public class StudyService {
         study.getTags().remove(tag);
     }
 
+    public void addZone(Study study, Zone zone) {
+        study.getZones().add(zone);
+    }
+
+    public void removeZone(Study study, Zone zone) {
+        study.getZones().remove(zone);
+    }
+
     public Study getStudyToUpdateTag(Account account, String path) {
-        Study study = studyRepository.findAccountWithTagsByPath(path);
+        Study study = studyRepository.findStudyWithTagsByPath(path);
         checkIfExistingStudy(path, study);
         checkIfManager(account, study);
         return study;
@@ -81,17 +89,36 @@ public class StudyService {
     }
 
     public Study getStudyToUpdateZone(Account account, String path) {
-        Study study = studyRepository.findAccountWithZonesByPath(path);
+        Study study = studyRepository.findStudyWithZonesByPath(path);
         checkIfExistingStudy(path, study);
         checkIfManager(account, study);
         return study;
     }
 
-    public void addZone(Study study, Zone zone) {
-        study.getZones().add(zone);
+    public Study getStudyToUpdateStatus(Account account, String path) {
+        Study study = studyRepository.findStudyWithManagersByPath(path);
+        checkIfExistingStudy(path, study);
+        checkIfManager(account, study);
+        return study;
     }
 
-    public void removeZone(Study study, Zone zone) {
-        study.getZones().remove(zone);
+    /**
+     * 객체 상태를 변경하는 것이기 때문에 
+     * Transaction 안에서 하고 Transaction 끝날 때 커밋되도록 해서 DB에 반영해야 함
+     */
+    public void publish(Study study) {
+        study.publish(); // 도메인 쪽으로 위임
+    }
+
+    public void close(Study study) {
+        study.close(); // 도메인 쪽으로 위임
+    }
+
+    public void startRecruit(Study study) {
+        study.startRecruit();
+    }
+
+    public void stopRecruit(Study study) {
+        study.stopRecruit();
     }
 }
