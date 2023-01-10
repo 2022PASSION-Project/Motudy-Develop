@@ -4,6 +4,8 @@ import com.motudy.account.UserAccount;
 import lombok.*;
 
 import javax.persistence.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -139,4 +141,17 @@ public class Study {
     public boolean isRemovable() {
         return !this.isPublished(); // TODO 모임을 했던 스터디는 삭제할 수 없다.
     }
+
+    public void addMember(Account account) {
+        this.getMembers().add(account);
+    }
+
+    public void removeMember(Account account) {
+        this.getMembers().remove(account);
+    }
+
+    public String getEncodedPath() {
+        return URLEncoder.encode(this.path, StandardCharsets.UTF_8);
+    }
+
 }

@@ -27,6 +27,7 @@ public class StudyController {
     private final StudyService studyService;
     private final ModelMapper modelMapper;
     private final StudyFormValidator studyFormValidator;
+    private final StudyRepository studyRepository;
 
     @InitBinder("studyForm") // 스터디 추가할 때 path값이 중복되는지 확인
     public void studyFormInitBinder(WebDataBinder webDataBinder) {
@@ -65,5 +66,21 @@ public class StudyController {
         model.addAttribute(account);
         model.addAttribute(study);
         return "study/members";
+    }
+
+    // PostMapping으로 하면 UI가 깨짐 - 원래는 Post
+    @GetMapping("/study/{path}/join")
+    public String joinStudy(@CurrentAccount Account account, @PathVariable String path) {
+        Study study = studyRepository.findStudyWithMembersByPath(path);
+        studyService.addMember(study, account);
+        return "redirect:/study/" + study.getEncodedPath() + "/members";
+    }
+
+    // PostMapping으로 하면 UI가 깨짐 - 원래는 Post
+    @GetMapping("/study/{path}/leave")
+    public String leaveStudy(@CurrentAccount Account account, @PathVariable String path) {
+        Study study = studyRepository.findStudyWithMembersByPath(path);
+        studyService.removeMember(study, account);
+        return "redirect:/study/" + study.getEncodedPath() + "/members";
     }
 }
