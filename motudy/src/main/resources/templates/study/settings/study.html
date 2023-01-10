@@ -117,7 +117,7 @@
 				</div>
 
 				<hr />
-				<div class="row">
+				<div class="row" th:if="${study.isRemovable()}">
 					<h5 class="col-sm-12 text-danger">스터디 삭제</h5>
 					<form class="col-sm-12" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/study/remove'}" method="post" novalidate>
 						<div class="alert alert-danger" role="alert">
