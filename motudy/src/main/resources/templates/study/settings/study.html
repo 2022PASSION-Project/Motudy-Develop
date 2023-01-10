@@ -70,6 +70,70 @@
 						</div>
 					</form>
 				</div>
+
+				<hr th:if="${!study.closed}"/>
+				<div class="row" th:if="${!study.closed}">
+					<h5 class="col-sm-12">스터디 경로</h5>
+					<form class="col-sm-12 needs-validation" action="#" th:action="@{'/study/' + ${study.path} + '/settings/study/path'}" method="post" novalidate>
+						<div class="alert alert-warning" role="alert">
+							스터디 경로를 수정하면 이전에 사용하던 경로로 스터디에 접근할 수 없으니 주의하세요. <br />
+						</div>
+						<div class="form-group">
+							<input id="path" type="text" name="newPath" th:value="${study.path}" class="form-control"
+								   placeholder="예) study-path" aria-describedby="pathHelp" required>
+							<small id="pathHelp" class="form-text text-muted">
+								공백없이 문자, 숫자, 대시(-)와 언더바(_)만 3자 이상 20자 이내로 입력하세요. 스터디 홈 주소에 사용합니다. 예) /study/<b>study-path</b>
+							</small>
+							<small class="invalid-feedback">스터디 경로를 입력하세요.</small>
+							<small class="form-text text-danger" th:if="${studyPathError}" th:text="${studyPathError}">Path Error</small>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-outline-warning" type="submit" aria-describedby="submitHelp">경로 수정</button>
+						</div>
+					</form>
+				</div>
+
+				<hr th:if="${!study.closed}" />
+				<div class="row" th:if="${!study.closed}">
+					<h5 class="col-12">스터디 이름</h5>
+					<form class="needs-validation col-12" action="#" th:action="@{'/study/' + ${study.path} + '/settings/study/title'}" method="post" novalidate>
+						<div class="alert alert-warning" role="alert">
+							스터디 이름을 수정합니다.<br/>
+						</div>
+						<div class="form-group">
+							<label for="title">스터디 이름</label>
+							<input id="title" type="text" name="newTitle" th:value="${study.title}" class="form-control"
+								   placeholder="스터디 이름" aria-describedby="titleHelp" required maxlength="50">
+							<small id="titleHelp" class="form-text text-muted">
+								스터디 이름을 50자 이내로 입력하세요.
+							</small>
+							<small class="invalid-feedback">스터디 이름을 입력하세요.</small>
+							<small class="form-text text-danger" th:if="${studyTitleError}" th:text="${studyTitleError}">Title Error</small>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-outline-warning" type="submit" aria-describedby="submitHelp">스터디 이름 수정</button>
+						</div>
+					</form>
+				</div>
+
+				<hr />
+				<div class="row">
+					<h5 class="col-sm-12 text-danger">스터디 삭제</h5>
+					<form class="col-sm-12" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/study/remove'}" method="post" novalidate>
+						<div class="alert alert-danger" role="alert">
+							스터디를 삭제하면 스터디 관련 모든 기록을 삭제하며 복구할 수 없습니다. <br/>
+							<b>다음에 해당하는 스터디는 자동으로 삭제 됩니다.</b>
+							<ul>
+								<li>만든지 1주일이 지난 비공개 스터디</li>
+								<li>스터디 공개 이후, 한달 동안 모임을 만들지 않은 스터디</li>
+								<li>스터디 공개 이후, 모임을 만들지 않고 종료한 스터디</li>
+							</ul>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-outline-danger" type="submit" aria-describedby="submitHelp">스터디 삭제</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 		<div th:replace="fragments.html :: footer"></div>
