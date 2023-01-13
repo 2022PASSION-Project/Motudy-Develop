@@ -1,5 +1,6 @@
 package com.motudy.event.validator;
 
+import com.motudy.domain.Event;
 import com.motudy.event.form.EventForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -51,5 +52,12 @@ public class EventValidator implements Validator {
     private boolean isNotValidEndDateTime(EventForm eventForm) {
         LocalDateTime endDateTime = eventForm.getEndDateTime();
         return endDateTime.isBefore(eventForm.getStartDateTime()) || endDateTime.isBefore(eventForm.getEndEnrollmentDateTime());
+    }
+
+    public void validateUpdateForm(EventForm eventForm, Event event, Errors errors) {
+        // 현재 이미 수락된 신청 개수보다는 커야한다(이상)
+        if(eventForm.getLimitOfEnrollments() < event.getNumberOfAcceptedEnrollments()) {
+            errors.rejectValue("limitOfEnrollments", "wrong.value", "확인된 참가 신청보다 모집 인원 수가 크거나 같아야 합니다.");
+        }
     }
 }
