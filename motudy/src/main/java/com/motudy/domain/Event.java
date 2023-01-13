@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NamedEntityGraph(name = "Event.withEnrollments", attributeNodes = {
+        @NamedAttributeNode("enrollments")})
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 public class Event {
@@ -57,14 +59,8 @@ public class Event {
         return isNotClosed() && isAlreadyEnrolled(userAccount);
     }
 
-    public boolean isAttended(UserAccount userAccount) {
-        Account account = userAccount.getAccount();
-        for(Enrollment e : this.enrollments) {
-            if(e.getAccount().equals(account) && e.isAttended()) {
-                return true;
-            }
-        }
-        return false;
+    private boolean isNotClosed() {
+        return this.endEnrollmentDateTime.isAfter(LocalDateTime.now());
     }
 
     private boolean isAlreadyEnrolled(UserAccount userAccount) {
@@ -77,7 +73,17 @@ public class Event {
         return false;
     }
 
-    private boolean isNotClosed() {
-        return this.endEnrollmentDateTime.isAfter(LocalDateTime.now());
+    public boolean isAttended(UserAccount userAccount) {
+        Account account = userAccount.getAccount();
+        for(Enrollment e : this.enrollments) {
+            if(e.getAccount().equals(account) && e.isAttended()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int numberOfRemainSpots() {
+        return this.limitOfEnrollments - (int) this.enrollments.stream().filter(Enrollment::isAccepted).count();
     }
 }
