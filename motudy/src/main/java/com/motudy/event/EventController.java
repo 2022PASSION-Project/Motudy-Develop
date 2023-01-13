@@ -67,4 +67,6 @@ public class EventController {
         model.addAttribute(studyService.getStudy(path));
         return "event/view";
     }
+
+
 }
