@@ -24,12 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-class StudyControllerTest {
+public class StudyControllerTest {
 
-    @Autowired MockMvc mockMvc;
-    @Autowired StudyService studyService;
-    @Autowired StudyRepository studyRepository;
-    @Autowired AccountRepository accountRepository;
+    @Autowired protected MockMvc mockMvc;
+    @Autowired protected StudyService studyService;
+    @Autowired protected StudyRepository studyRepository;
+    @Autowired protected AccountRepository accountRepository;
 
     @AfterEach
     void afterEach() {
@@ -103,5 +103,52 @@ class StudyControllerTest {
                 .andExpect(view().name("study/view"))
                 .andExpect(model().attributeExists("account"))
                 .andExpect(model().attributeExists("study"));
+    }
+
+    @Test
+    @WithAccount("motudy")
+    @DisplayName("스터디 가입")
+    void joinStudy() throws Exception {
+        Account study_group = createAccount("study_group");
+        Study study = createStudy("test-study", study_group);
+
+        mockMvc.perform(get("/study/" + study.getPath() + "/join"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/study/" + study.getPath() + "/members"));
+
+        Account motudy = accountRepository.findByNickname("motudy");
+        assertTrue(study.getMembers().contains(motudy));
+    }
+
+    @Test
+    @WithAccount("motudy")
+    @DisplayName("스터디 탈퇴")
+    void leaveStudy() throws Exception {
+        Account study_group = createAccount("study_group");
+        Study study = createStudy("test-study", study_group);
+
+        Account motudy = accountRepository.findByNickname("motudy");
+        studyService.addMember(study, motudy);
+
+        mockMvc.perform(get("/study/" + study.getPath() + "/leave"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/study/" + study.getPath() + "/members"));
+
+        assertFalse(study.getMembers().contains(motudy));
+    }
+
+    protected Study createStudy(String path, Account manager) {
+        Study study = new Study();
+        study.setPath(path);
+        studyService.createNewStudy(study, manager);
+        return study;
+    }
+
+    protected Account createAccount(String nickname) {
+        Account study_group = new Account();
+        study_group.setNickname(nickname);
+        study_group.setEmail(nickname + "@email.com");
+        accountRepository.save(study_group);
+        return study_group;
     }
 }

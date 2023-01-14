@@ -245,7 +245,7 @@ class SettingsControllerTest {
     @WithAccount("motudy")
     @DisplayName("패스워드 변경폼")
     @Test
-    void updatePasswordForm() throws Exception {
+    void updatePassword_form() throws Exception {
         mockMvc.perform(get(ROOT + SETTINGS + PASSWORD))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("account"))
@@ -255,7 +255,7 @@ class SettingsControllerTest {
     @WithAccount("motudy")
     @DisplayName("패스워드 변경 - 입력값 정상")
     @Test
-    void updatePassword() throws Exception {
+    void updatePassword_success() throws Exception {
         mockMvc.perform(post(ROOT + SETTINGS + PASSWORD)
                 .param("newPassword", "asdfasdf")
                 .param("newPasswordConfirm", "asdfasdf")
@@ -271,7 +271,7 @@ class SettingsControllerTest {
     @WithAccount("motudy")
     @DisplayName("패스워드 변경 - 입력값 에러 - 패스워드 불일치")
     @Test
-    void updatePassword_error() throws Exception {
+    void updatePassword_fail() throws Exception {
         mockMvc.perform(post(ROOT + SETTINGS + PASSWORD)
                 .param("newPassword", "asdfasdf")
                 .param("newPasswordConfirm", "qwerqwer")
@@ -279,7 +279,7 @@ class SettingsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name(SETTINGS + PASSWORD))
                 .andExpect(model().hasErrors())
-                .andExpect(model().attributeExists("account"))
-                .andExpect(model().attributeExists("passwordForm"));
+                .andExpect(model().attributeExists("passwordForm"))
+                .andExpect(model().attributeExists("account"));
     }
 }
