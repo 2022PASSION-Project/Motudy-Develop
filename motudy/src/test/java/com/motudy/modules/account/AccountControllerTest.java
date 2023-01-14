@@ -1,5 +1,6 @@
 package com.motudy.modules.account;
 
+import com.motudy.infra.MockMvcTest;
 import com.motudy.infra.mail.EmailMessage;
 import com.motudy.infra.mail.EmailService;
 import com.motudy.modules.account.Account;
@@ -24,14 +25,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc // @AutoConfigureWebTestClient를 하면 테스트 하면서 view 응답을 다 보여줌. 즉, view test가 가능
+@MockMvcTest
 class AccountControllerTest {
 
-    @Autowired private MockMvc mockMvc;
-
-    @Autowired private AccountRepository accountRepository;
+    @Autowired MockMvc mockMvc;
+    @Autowired AccountRepository accountRepository;
 
     @MockBean EmailService emailService;
 

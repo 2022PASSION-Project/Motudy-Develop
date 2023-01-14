@@ -1,20 +1,16 @@
 package com.motudy.modules.event;
 
-import com.motudy.modules.account.WithAccount;
-import com.motudy.modules.account.AccountRepository;
+import com.motudy.infra.MockMvcTest;
 import com.motudy.modules.account.Account;
+import com.motudy.modules.account.AccountFactory;
+import com.motudy.modules.account.AccountRepository;
+import com.motudy.modules.account.WithAccount;
 import com.motudy.modules.study.Study;
-import com.motudy.modules.study.StudyRepository;
-import com.motudy.modules.study.StudyService;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.AfterEach;
+import com.motudy.modules.study.StudyFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -24,32 +20,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
-@RequiredArgsConstructor
+@MockMvcTest
 public class EventControllerTest {
 
     @Autowired MockMvc mockMvc;
-    @Autowired StudyService studyService;
-    @Autowired StudyRepository studyRepository;
+    @Autowired StudyFactory studyFactory;
+    @Autowired AccountFactory accountFactory;
+    @Autowired EventService eventService;
     @Autowired AccountRepository accountRepository;
-    @Autowired
-    EventService eventService;
-    @Autowired
-    EnrollmentRepository enrollmentRepository;
-
-    @AfterEach
-    void afterEach() {
-        accountRepository.deleteAll();
-    }
+    @Autowired EnrollmentRepository enrollmentRepository;
 
     @Test
     @DisplayName("선착순 모임에 참가 신청 - 자동 수락")
     @WithAccount("motudy")
     void newEnrollment_to_FCFS_event_accepted() throws Exception {
-        Account anonymous = createAccount("anonymous");
-        Study study = createStudy("test-study", anonymous);
+        Account anonymous = accountFactory.createAccount("anonymous");
+        Study study = studyFactory.createStudy("test-study", anonymous);
         Event event = createEvent("test-event", EventType.FCFS, 2, study, anonymous);
 
         mockMvc.perform(post("/study/" + study.getPath() + "/events/" + event.getId() + "/enroll")
@@ -65,12 +51,12 @@ public class EventControllerTest {
     @DisplayName("선착순 모임에 참가 신청 - 대기중 (이미 인원이 꽉차서)")
     @WithAccount("motudy")
     void newEnrollment_to_FCFS_event_not_accepted() throws Exception {
-        Account anonymous = createAccount("anonymous");
-        Study study = createStudy("test-study", anonymous);
+        Account anonymous = accountFactory.createAccount("anonymous");
+        Study study = studyFactory.createStudy("test-study", anonymous);
         Event event = createEvent("test-event", EventType.FCFS, 2, study, anonymous);
 
-        Account student = createAccount("student");
-        Account teacher = createAccount("teacher");
+        Account student = accountFactory.createAccount("student");
+        Account teacher = accountFactory.createAccount("teacher");
         eventService.newEnrollment(event, student);
         eventService.newEnrollment(event, teacher);
 
@@ -88,9 +74,9 @@ public class EventControllerTest {
     @WithAccount("motudy")
     void accepted_account_cancelEnrollment_to_FCFS_event_not_accepted() throws Exception {
         Account motudy = accountRepository.findByNickname("motudy");
-        Account anonymous = createAccount("anonymous");
-        Account student = createAccount("student");
-        Study study = createStudy("test-study", anonymous);
+        Account anonymous = accountFactory.createAccount("anonymous");
+        Account student = accountFactory.createAccount("student");
+        Study study = studyFactory.createStudy("test-study", anonymous);
         Event event = createEvent("test-event", EventType.FCFS, 2, study, anonymous);
 
         eventService.newEnrollment(event, student);
@@ -116,9 +102,9 @@ public class EventControllerTest {
     @WithAccount("motudy")
     void not_accepted_account_cancelEnrollment_to_FCFS_event_not_accepted() throws Exception {
         Account motudy = accountRepository.findByNickname("motudy");
-        Account anonymous = createAccount("anonymous");
-        Account student = createAccount("student");
-        Study study = createStudy("test-study", anonymous);
+        Account anonymous = accountFactory.createAccount("anonymous");
+        Account student = accountFactory.createAccount("student");
+        Study study = studyFactory.createStudy("test-study", anonymous);
         Event event = createEvent("test-event", EventType.FCFS, 2, study, anonymous);
 
         eventService.newEnrollment(event, student);
@@ -143,8 +129,8 @@ public class EventControllerTest {
     @DisplayName("관리자 확인 모임에 참가 신청하기 - 대기중")
     @WithAccount("motudy")
     void newEnrollment_to_CONFIRMATIVE_event_not_accepted() throws Exception {
-        Account anonymous = createAccount("anonymous");
-        Study study = createStudy("test-study", anonymous);
+        Account anonymous = accountFactory.createAccount("anonymous");
+        Study study = studyFactory.createStudy("test-study", anonymous);
         Event event = createEvent("test-event", EventType.CONFIRMATIVE, 2, study, anonymous);
 
         mockMvc.perform(post("/study/" + study.getPath() + "/events/" + event.getId() + "/enroll")
@@ -178,20 +164,5 @@ public class EventControllerTest {
         event.setStartDateTime(LocalDateTime.now().plusDays(1).plusHours(5));
         event.setEndDateTime(LocalDateTime.now().plusDays(1).plusHours(7));
         return eventService.createEvent(event, study, account);
-    }
-
-    protected Study createStudy(String path, Account manager) {
-        Study study = new Study();
-        study.setPath(path);
-        studyService.createNewStudy(study, manager);
-        return study;
-    }
-
-    protected Account createAccount(String nickname) {
-        Account study_group = new Account();
-        study_group.setNickname(nickname);
-        study_group.setEmail(nickname + "@email.com");
-        accountRepository.save(study_group);
-        return study_group;
     }
 }

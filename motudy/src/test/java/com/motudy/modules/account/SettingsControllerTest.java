@@ -1,6 +1,7 @@
 package com.motudy.modules.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.motudy.infra.MockMvcTest;
 import com.motudy.modules.zone.ZoneRepository;
 import com.motudy.modules.tag.Tag;
 import com.motudy.modules.zone.Zone;
@@ -26,9 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
+@MockMvcTest
 class SettingsControllerTest {
 
     @Autowired MockMvc mockMvc;
