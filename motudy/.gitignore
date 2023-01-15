@@ -48,3 +48,4 @@ gradle-wrapper.properties
 node_modules/
 node/
 application-dev.properties
+application-test.properties

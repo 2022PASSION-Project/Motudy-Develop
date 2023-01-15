@@ -1,6 +1,7 @@
 package com.motudy.modules.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.motudy.infra.AbstractContainerBaseTest;
 import com.motudy.infra.MockMvcTest;
 import com.motudy.modules.zone.ZoneRepository;
 import com.motudy.modules.tag.Tag;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @MockMvcTest
-class SettingsControllerTest {
+class SettingsControllerTest extends AbstractContainerBaseTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired AccountRepository accountRepository;

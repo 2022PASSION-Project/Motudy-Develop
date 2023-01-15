@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Profile("local") // 로컬에서 개발할 때
+@Profile({"local", "test"}) // 로컬에서 개발할 때
 @Component
 public class ConsoleEmailService implements EmailService {
 

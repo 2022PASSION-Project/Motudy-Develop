@@ -1,5 +1,6 @@
 package com.motudy.modules.study;
 
+import com.motudy.infra.AbstractContainerBaseTest;
 import com.motudy.infra.MockMvcTest;
 import com.motudy.modules.account.AccountFactory;
 import com.motudy.modules.account.WithAccount;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @MockMvcTest
-public class StudySettingsControllerTest {
+public class StudySettingsControllerTest extends AbstractContainerBaseTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired StudyFactory studyFactory;
