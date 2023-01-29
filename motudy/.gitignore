@@ -49,3 +49,4 @@ node_modules/
 node/
 application-dev.properties
 application-test.properties
+application-test.yml
