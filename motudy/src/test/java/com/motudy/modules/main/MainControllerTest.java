@@ -1,6 +1,5 @@
 package com.motudy.modules.main;
 
-import com.motudy.infra.AbstractContainerBaseTest;
 import com.motudy.modules.account.AccountRepository;
 import com.motudy.modules.account.AccountService;
 import com.motudy.modules.account.form.SignUpForm;
@@ -23,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest // ExtendWith가 이미 들어있음. 메타 어노테이션 사용됨
 @AutoConfigureMockMvc
-class MainControllerTest extends AbstractContainerBaseTest {
+class MainControllerTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired AccountService accountService;
