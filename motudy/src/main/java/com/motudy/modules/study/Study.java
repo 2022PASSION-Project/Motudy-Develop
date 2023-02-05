@@ -22,9 +22,11 @@ public class Study {
     private Long id;
 
     @ManyToMany
+    @Builder.Default // Set의 기본값 생성, null로 되는 것 방지
     private Set<Account> managers = new HashSet<>();
 
     @ManyToMany
+    @Builder.Default // Set의 기본값 생성, null로 되는 것 방지
     private Set<Account> members = new HashSet<>();
 
     @Column(unique = true)
@@ -41,9 +43,11 @@ public class Study {
     private String banner; // 배너 이미지
 
     @ManyToMany
+    @Builder.Default // Set의 기본값 생성, null로 되는 것 방지
     private Set<Tag> tags = new HashSet<>(); // 관심 주제
 
     @ManyToMany
+    @Builder.Default // Set의 기본값 생성, null로 되는 것 방지
     private Set<Zone> zones = new HashSet<>(); // 지역 정보
 
     private LocalDateTime publishedDateTime; // 스터디를 공개한 시간

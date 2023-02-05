@@ -3,7 +3,11 @@ package com.motudy.modules.study;
 import com.motudy.modules.account.QAccount;
 import com.motudy.modules.tag.QTag;
 import com.motudy.modules.zone.QZone;
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -24,16 +28,18 @@ public class StudyRepositoryExtensionImpl extends QuerydslRepositorySupport impl
     }
 
     @Override
-    public List<Study> findByKeyword(String keyword) {
+    public Page<Study> findByKeyword(String keyword, Pageable pageable) {
         QStudy study = QStudy.study;
         JPQLQuery<Study> query = from(study).where(study.published.isTrue() // 공개된 스터디 중
-                .and(study.title.containsIgnoreCase(keyword)) // 대소문자 관계없이 keyword라는 제목을 가진 스터디이고,
-                .or(study.tags.any().title.containsIgnoreCase(keyword)) // 대소문자 관계없이 keyword를 포함하고 있는 태그를 가지고 있거나,
-                .or(study.zones.any().localNameOfCity.containsIgnoreCase(keyword))) // 또는 로컬 이름에 keyword가 들어가있으면
+                        .and(study.title.containsIgnoreCase(keyword)) // 대소문자 관계없이 keyword라는 제목을 가진 스터디이고,
+                        .or(study.tags.any().title.containsIgnoreCase(keyword)) // 대소문자 관계없이 keyword를 포함하고 있는 태그를 가지고 있거나,
+                        .or(study.zones.any().localNameOfCity.containsIgnoreCase(keyword))) // 또는 로컬 이름에 keyword가 들어가있으면
                 .leftJoin(study.tags, QTag.tag).fetchJoin()
                 .leftJoin(study.zones, QZone.zone).fetchJoin()
                 .leftJoin(study.members, QAccount.account).fetchJoin()
                 .distinct(); // study에 대한 distinct가 아니라 전체 쿼리에 대한 distinct, 그래서 사실 의미없긴 함
-        return query.fetch(); // fetchResults()는 페이징 처리할 때 사용
+        JPQLQuery<Study> pageableQuery = getQuerydsl().applyPagination(pageable, query);
+        QueryResults<Study> fetchResults = pageableQuery.fetchResults();// fetchResults()는 페이징 처리할 때 사용
+        return new PageImpl<>(fetchResults.getResults(), pageable, fetchResults.getTotal());
     }
 }
