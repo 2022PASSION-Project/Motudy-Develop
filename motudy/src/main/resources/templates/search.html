@@ -19,7 +19,7 @@
 				<div class="row">
 					<div class="col-md-4" th:each="study: ${studyList}">
 						<div class="card mb-4 shadow-sm">
-							<img th:src="${study.image}" class="context card-img-top" th:alt="${study.title}">
+							<img th:src="${study.banner}" class="context card-img-top" th:alt="${study.title}">
 							<div class="card-body">
 								<a th:href="@{'/study/' + ${study.path}}" class="text-decoration-none">
 									<h5 class="card-title context" th:text="${study.title}"></h5>

@@ -1,8 +1,7 @@
 package com.motudy.modules.main;
 
-import com.motudy.modules.account.CurrentAccount;
 import com.motudy.modules.account.Account;
-import com.motudy.modules.notification.NotificationRepository;
+import com.motudy.modules.account.CurrentAccount;
 import com.motudy.modules.study.Study;
 import com.motudy.modules.study.StudyRepository;
 import lombok.RequiredArgsConstructor;
