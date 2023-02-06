@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class EnrollmentEvent {
+public abstract class EnrollmentEvent {
 
     protected final Enrollment enrollment;
 

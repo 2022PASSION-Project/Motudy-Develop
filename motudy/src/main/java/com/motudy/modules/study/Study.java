@@ -64,6 +64,8 @@ public class Study {
 
     private boolean useBanner; // 배너 사용 여부
 
+    private int memberCount; // 멤버 카운트를 가져오게 할 거임
+
     public void addManager(Account account) {
         this.managers.add(account);
     }
@@ -138,10 +140,12 @@ public class Study {
 
     public void addMember(Account account) {
         this.getMembers().add(account);
+        this.memberCount++;
     }
 
     public void removeMember(Account account) {
         this.getMembers().remove(account);
+        this.memberCount--;
     }
 
     public String getEncodedPath() {

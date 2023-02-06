@@ -4,16 +4,24 @@
 <head th:replace="fragments.html :: header"></head>
 <body class="bg-light">
 	<nav th:replace="fragments.html :: main-nav"></nav>
-	<div class="alert alert-warning" role="alert" th:if="${account != null && !account.emailVerified}">
-		모터디 가입을 완료하려면 <a href="#" th:href="@{/check-email}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
-	</div>
-
-	<div class="container">
-		<div class="py-5 text-center">
-			<h2>모터디</h2>
+	<section class="jumbotron text-center">
+		<div class="container">
+			<h1>모터디</h1>
+			<p class="lead text-muted">
+				스터디 주제와 스터디 지역 기반으로 스터디를 찾아 참여해보세요.<br />
+				스터디 모임 관리 기능도 제공합니다.
+			</p>
+			<p>
+				<a href="#" th:href="@{/sign-up}" class="btn btn-primary my-2">회원 가입</a>
+			</p>
 		</div>
-
-		<footer th:replace="fragments.html :: footer"></footer>
+	</section>
+	<div class="container">
+		<div class="row justify-content-center pt-3">
+			<div th:replace="fragments.html :: study-list (studyList=${studyList})"></div>
+		</div>
 	</div>
+	<footer th:replace="fragments.html :: footer"></footer>
+	<script th:replace="fragments.html :: date-time"></script>
 </body>
 </html>
