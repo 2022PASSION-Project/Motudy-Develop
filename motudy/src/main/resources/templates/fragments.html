@@ -208,8 +208,12 @@
 				<button class="btn btn-primary btn-sm" style="pointer-events: none;" type="button" disabled>DRAFT</button>
 			</span>
 			<span th:if="${study.closed}"
-				  class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="스터디 종료함">
+				  class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="스터디 종료됨">
 				<button class="btn btn-primary btn-sm" style="pointer-events: none;" type="button" disabled>OFF</button>
+			</span>
+			<span th:if="${!study.recruiting}"
+				  class="d-inline-block ml-1" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="팀원 모집 중 아님">
+					<button class="btn btn-primary btn-sm" style="pointer-events: none;" type="button" disabled>OFF</button>
 			</span>
 			<span sec:authorize="isAuthenticated()" th:if="${study.isJoinable(#authentication.principal)}"
 				  class="btn-group" role="group" aria-label="Basic example">
@@ -565,7 +569,7 @@
 
 <div th:fragment="study-list (studyList)" class="col-sm-12">
 	<div class="row">
-		<div class="col-md-4" th:each="study: ${studyPage.getContent()}">
+		<div class="col-md-4" th:each="study: ${studyList}">
 			<div class="card mb-4 shadow-sm">
 				<img th:src="${study.banner}" class="card-img-top" th:alt="${study.title}">
 				<div class="card-body">
@@ -588,7 +592,7 @@
 					<div class="d-flex justify-content-between align-items-center">
 						<small class="text-muted">
 							<i class="fa fa-user-circle"></i>
-							<span th:text="${study.members.size()}"></span>명
+							<span th:text="${study.memberCount}"></span>명
 						</small>
 						<small class="text-muted date" th:text="${study.publishedDateTime}">9 mins</small>
 					</div>
